@@ -16,3 +16,7 @@ dependencyResolutionManagement {
 rootProject.name = "Advent"
 include(":app")
 include(":core:designsystem")
+include(":feature:home")
+include(":feature:login")
+include(":core:common")
+include(":feature:create_calendar")

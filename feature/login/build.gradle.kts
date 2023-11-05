@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.hbd.advent.designsystem"
+    namespace = "com.hbd.advent.login"
     compileSdk = 34
 
     defaultConfig {
@@ -40,6 +40,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:designsystem"))
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
@@ -47,4 +52,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    testImplementation(libs.junit4)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }

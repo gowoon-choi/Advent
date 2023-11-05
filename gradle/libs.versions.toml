@@ -9,6 +9,10 @@ androidxExt = "1.1.5"
 androidxEspresso = "3.5.1"
 junit4 = "4.13.2"
 androidXappcompat = "1.6.1"
+appcompat = "1.6.1"
+material = "1.10.0"
+org-jetbrains-kotlin-jvm = "1.8.10"
+coil = "2.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore"}
@@ -25,10 +29,14 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxExt" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin"}
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 
 [bundles]
