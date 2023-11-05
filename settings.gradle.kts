@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Advent"
 include(":app")
- 
+include(":core:designsystem")
