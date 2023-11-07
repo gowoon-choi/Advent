@@ -7,6 +7,7 @@ androidxCompose = "1.8.0"
 androidxComposeBom = "2023.03.00"
 androidxExt = "1.1.5"
 androidxEspresso = "3.5.1"
+androidxNavigation = "2.5.3"
 junit4 = "4.13.2"
 androidXappcompat = "1.6.1"
 appcompat = "1.6.1"
@@ -18,6 +19,7 @@ coil = "2.5.0"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore"}
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle"}
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxCompose" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom"}
 androidx-compose-ui = { group  = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
