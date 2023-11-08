@@ -6,7 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.hbd.advent.NavScreen
-import com.hbd.advent.login.LoginScreen
+import com.hbd.advent.login.navigation.LoginNavHost
+import com.hbd.advent.login.navigation.loginRootName
 
 @Composable
 fun AdventNavHost(
@@ -14,13 +15,16 @@ fun AdventNavHost(
 ){
     NavHost(
         navController = navController,
-        startDestination = "app"){
-        composable("app"){
+        startDestination = appRootName.app){
+        composable(appRootName.app){
             NavScreen(navController)
         }
-        composable("login"){
-            LoginScreen()
+        composable(loginRootName.login){
+            LoginNavHost()
         }
     }
+}
 
+object appRootName{
+    const val app = "advent"
 }

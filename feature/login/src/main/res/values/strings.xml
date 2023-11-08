@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Advent</string>
     <string name="login_title">기대되는 %s\n함께 시작해보아요</string>
+    <string name="nickname_input_placeholder">사용할 닉넥임을 입력해주세요</string>
+    <string name="nickname_title">환영합니다\n닉네임을 설정해보세요</string>
 </resources>
