@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_title">%s님 반가워요\n함께 캘린더를 생성해볼까요?</string>
+    <string name="welcome_subtitle">24개의 선물을 모두 담지 않아도 괜찮아요</string>
+    <string name="skip_button_title">구경할게요</string>
+    <string name="create_calendar_button_title">캘린더 생성하기</string>
+    <string name="create_calendar_appbar_title">캘린더 생성하기</string>
+    <string name="calendar_name_title">캘린더 이름을 정해볼까요?</string>
+    <string name="calendar_name_subtitle">최대 %d개 생성할 수 있어요</string>
+    <string name="calendar_theme_title">마음에 드는\n캘린더 스킨을 선택해주세요</string>
+    <string name="calendar_theme_subtitle">캘린더 색상은 변경할 수 있어요</string>
+    <string name="calendar_name_input_placeholder">캘린더 이름을 지정해주세요</string>
+    <string name="calendar_theme_name_green">크리스마스 트리</string>
+    <string name="calendar_theme_name_red">크리스마스 파티</string>
+
+</resources>

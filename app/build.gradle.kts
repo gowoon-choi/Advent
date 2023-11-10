@@ -53,6 +53,7 @@ android {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":feature:login"))
+    implementation(project(":feature:create_calendar"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime)

@@ -5,9 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.hbd.advent.NavScreen
-import com.hbd.advent.login.navigation.LoginNavHost
-import com.hbd.advent.login.navigation.loginRootName
+import com.hbd.advent.AdventApp
+import com.hbd.advent.login.navigation.loginGraph
+import com.hbd.create_calendar.navigation.createCalendarGraph
 
 @Composable
 fun AdventNavHost(
@@ -15,16 +15,11 @@ fun AdventNavHost(
 ){
     NavHost(
         navController = navController,
-        startDestination = appRootName.app){
-        composable(appRootName.app){
-            NavScreen(navController)
+        startDestination = AppRoute.advent){
+        composable(AppRoute.advent){
+            AdventApp(navController)
         }
-        composable(loginRootName.login){
-            LoginNavHost()
-        }
+        loginGraph(navController)
+        createCalendarGraph(navController)
     }
-}
-
-object appRootName{
-    const val app = "advent"
 }

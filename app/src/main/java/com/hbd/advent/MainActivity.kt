@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.hbd.advent.designsystem.theme.AdventTheme
-import com.hbd.advent.login.navigation.loginRootName
 import com.hbd.advent.navigation.AdventNavHost
+import com.hbd.advent.navigation.AppRoute
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,10 +29,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavScreen(navController: NavController){
+fun AdventApp(navController: NavController){
     Surface(Modifier.fillMaxSize().background(Color.White)) {
         Column {
-            Button(onClick = { navController.navigate(loginRootName.login) }) {
+            Button(onClick = { navController.navigate(AppRoute.loginGraph) }) {
                 Text(text = "go to login")
             }
         }

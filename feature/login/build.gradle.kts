@@ -41,6 +41,7 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":feature:create_calendar"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)

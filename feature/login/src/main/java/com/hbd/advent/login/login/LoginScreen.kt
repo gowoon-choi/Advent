@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.login.R
+import com.hbd.advent.login.navigation.LoginNavRoute
 import com.hbd.advent.designsystem.R as commonR
-import com.hbd.advent.login.navigation.loginRootName
 
 @Composable
 fun LoginScreen(
@@ -45,7 +45,8 @@ fun LoginScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 100.dp)
-                .clickable { navController.navigate(loginRootName.initNickname) },
+                .clickable {
+                    navController.navigate(LoginNavRoute.initNickname) },
             painter = painterResource(id = R.drawable.kakao_login_btn),
             contentDescription = null,
             tint = Color.Unspecified
