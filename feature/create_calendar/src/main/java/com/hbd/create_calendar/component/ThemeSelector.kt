@@ -48,6 +48,7 @@ fun ThemeSelectCard(
     selected: Boolean,
     onClick: () -> Unit
 ) {
+    val textColor = if(selected) AdventTheme.colors.Black600 else AdventTheme.colors.Black400
     Column {
         when (theme) {
             Theme.GREEN -> {
@@ -63,14 +64,14 @@ fun ThemeSelectCard(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = theme.name,
             style = AdventTheme.typography.H3,
-            color = AdventTheme.colors.Black600
+            color = textColor
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = stringResource(id = theme.themeNameResId),
             style = AdventTheme.typography.Caption,
-            color = AdventTheme.colors.Black600
+            color = textColor
         )
     }
 
