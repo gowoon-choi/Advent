@@ -1,0 +1,98 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="104dp"
+    android:height="104dp"
+    android:viewportWidth="104"
+    android:viewportHeight="104">
+    <group>
+        <path
+            android:fillColor="#FFF45548"
+            android:pathData="M0 0h104v104H0z"/>
+        <path
+            android:pathData="M32.27 29.68C13.07 40.93 11.55 52.2 14.37 59H80c58.87-7.55 56.86-58.48 47.24-83H44.21c6.46 28.33 6.29 43-11.94 53.68Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="72.7"
+                    android:startY="-24"
+                    android:endX="72.7"
+                    android:endY="59">
+                    <item
+                        android:color="#FFFFFFFF"
+                        android:offset="0"/>
+                    <item
+                        android:color="#00FFFFFF"
+                        android:offset="1"/>
+                </gradient>
+            </aapt:attr>
+        </path>
+        <path
+            android:pathData="M98 67.36c0-30.34-21.44-36.65-33.1-36.65-21.46 0-45.9 13.05-45.9 36.65">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="53"
+                    android:startY="40.12"
+                    android:endX="-6.48"
+                    android:endY="94.67">
+                    <item
+                        android:color="#FFD6B48B"
+                        android:offset="0"/>
+                    <item
+                        android:color="#FFF45548"
+                        android:offset="1"/>
+                </gradient>
+            </aapt:attr>
+        </path>
+        <path
+            android:fillColor="#FF2C7A5D"
+            android:pathData="M91.22 56.79c0-1.08 0.1-4.1 0.9-6.23 0.09-0.25-0.17-0.48-0.4-0.36-2.07 1-5.1 1.36-6.18 1.46-0.25 0.03-0.47 0.18-0.6 0.4-1.99 3.46-4.72 6.44-8.02 8.73-0.22 0.15-0.35 0.4-0.33 0.68 0.07 1.07 0.16 3.91-0.68 5.9-0.1 0.26 0.17 0.51 0.41 0.38 1.94-1 4.8-1.19 5.88-1.22 0.28 0 0.52-0.15 0.65-0.39 2-3.46 4.73-6.44 8.03-8.73 0.21-0.14 0.35-0.37 0.34-0.62Z"/>
+        <path
+            android:fillColor="#FF2C7A5D"
+            android:pathData="M91.22 56.79c0-1.08 0.1-4.1 0.9-6.23 0.09-0.25-0.17-0.48-0.4-0.36-2.07 1-5.1 1.36-6.18 1.46-0.25 0.03-0.47 0.18-0.6 0.4-1.99 3.46-4.72 6.44-8.02 8.73-0.22 0.15-0.35 0.4-0.33 0.68 0.07 1.07 0.16 3.91-0.68 5.9-0.1 0.26 0.17 0.51 0.41 0.38 1.94-1 4.8-1.19 5.88-1.22 0.28 0 0.52-0.15 0.65-0.39 2-3.46 4.73-6.44 8.03-8.73 0.21-0.14 0.35-0.37 0.34-0.62Z"/>
+        <path
+            android:fillColor="#FF2C7A5D"
+            android:pathData="M83.14 48.13c-0.45-0.97-1.64-3.76-1.8-6.03-0.02-0.26-0.35-0.37-0.52-0.16-1.46 1.75-4.06 3.33-5 3.86-0.22 0.13-0.35 0.35-0.38 0.6-0.36 3.98-1.6 7.81-3.64 11.25-0.14 0.23-0.15 0.51-0.02 0.75 0.51 0.95 1.78 3.5 1.86 5.66 0 0.28 0.36 0.39 0.53 0.17 1.34-1.71 3.87-3.05 4.83-3.53 0.25-0.11 0.41-0.35 0.43-0.62 0.37-3.97 1.61-7.8 3.66-11.24 0.13-0.22 0.16-0.48 0.05-0.7Z"/>
+        <path
+            android:fillColor="#FFD6B48B"
+            android:pathData="M42 67.36c0-11.48-9.5-13.86-14.67-13.86C17.83 53.5 7 58.43 7 67.36"/>
+        <path
+            android:fillColor="#FFF44848"
+            android:pathData="M71.5 57a4.5 4.5 0 1 0 0 9 4.5 4.5 0 1 0 0-9z"/>
+        <path
+            android:fillColor="#FFF44848"
+            android:pathData="M72 66.5c0 2.49-2.01 4.5-4.5 4.5S63 68.99 63 66.5s2.01-4.5 4.5-4.5 4.5 2.01 4.5 4.5Z"/>
+        <path
+            android:fillColor="#FFF44848"
+            android:pathData="M80 66.5c0 2.49-2.01 4.5-4.5 4.5S71 68.99 71 66.5s2.01-4.5 4.5-4.5 4.5 2.01 4.5 4.5Z"/>
+        <path
+            android:pathData="M45 71h14v35H45z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="52"
+                    android:startY="73.5"
+                    android:endX="52"
+                    android:endY="114.5">
+                    <item
+                        android:color="#E6FFFFFF"
+                        android:offset="0"/>
+                    <item
+                        android:color="#FFFFFFFF"
+                        android:offset="0.5"/>
+                    <item
+                        android:color="#00FFFFFF"
+                        android:offset="1"/>
+                </gradient>
+            </aapt:attr>
+        </path>
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M5.32 67c-0.66 0-1.14 0.64-0.96 1.27l1.22 4.28C5.67 72.84 5.81 73.1 6 73.3v4.91c0 0.55 0.45 1.01 1 0.9 0.98-0.2 1.9-0.67 2.61-1.4 0.96-0.95 1.5-2.25 1.5-3.6 0 2.82 2.3 5.1 5.11 5.1 2.82 0 5.1-2.28 5.11-5.1 0.01 2.82 2.3 5.1 5.11 5.1 2.83 0 5.11-2.29 5.11-5.1V74v0.11c0 2.82 2.3 5.11 5.12 5.11 2.81 0 5.1-2.28 5.1-5.1 0.02 2.82 2.3 5.1 5.12 5.1 2.82 0 5.1-2.29 5.1-5.1V74H52v0.11c0 2.82 2.29 5.11 5.11 5.11 2.82 0 5.1-2.28 5.11-5.1 0.01 2.82 2.3 5.1 5.11 5.1 2.82 0 5.1-2.28 5.11-5.1 0.01 2.82 2.3 5.1 5.11 5.1 2.83 0 5.12-2.29 5.12-5.1V74v0.11c0 2.82 2.28 5.11 5.1 5.11 2.83 0 5.12-2.29 5.12-5.1V74v0.11c0 1.36 0.54 2.66 1.5 3.62 0.72 0.72 1.63 1.2 2.62 1.4 0.54 0.1 0.99-0.36 0.99-0.9v-4.3c0.67-0.17 1.22-0.69 1.41-1.38l1.23-4.28c0.18-0.63-0.3-1.27-0.97-1.27H5.32Zm67.12 7v0.1V74Zm-10.22 0v0.1V74Zm-20.44 0v0.1V74Zm-20.45 0v0.1V74Zm-10.22 0v0.1V74Z"/>
+        <path
+            android:fillColor="#FFCB3834"
+            android:fillType="evenOdd"
+            android:pathData="M16.3 77c0.55 0 1-0.45 1-1s-0.45-1-1-1-1 0.45-1 1 0.45 1 1 1Zm10.3 0c0.55 0 1-0.45 1-1s-0.45-1-1-1-1 0.45-1 1 0.45 1 1 1Zm11.3-1c0 0.55-0.45 1-1 1s-1-0.45-1-1 0.45-1 1-1 1 0.45 1 1Zm9.1 1c0.55 0 1-0.45 1-1s-0.45-1-1-1-1 0.45-1 1 0.45 1 1 1Zm11-1c0 0.55-0.45 1-1 1s-1-0.45-1-1 0.45-1 1-1 1 0.45 1 1Zm9.4 1c0.55 0 1-0.45 1-1s-0.45-1-1-1-1 0.45-1 1 0.45 1 1 1Zm11.3-1c0 0.55-0.45 1-1 1s-1-0.45-1-1 0.45-1 1-1 1 0.45 1 1Zm9.1 1c0.55 0 1-0.45 1-1s-0.45-1-1-1-1 0.45-1 1 0.45 1 1 1Z"/>
+    </group>
+</vector>
