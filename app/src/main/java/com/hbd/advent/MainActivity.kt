@@ -35,6 +35,9 @@ fun AdventApp(navController: NavController){
             Button(onClick = { navController.navigate(AppRoute.loginGraph) }) {
                 Text(text = "go to login")
             }
+            Button(onClick = { navController.navigate(AppRoute.homeGraph) }) {
+                Text(text = "go home")
+            }
         }
     }
 }

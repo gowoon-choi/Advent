@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="common_button_next">다음</string>
+    <string name="dday_prefix">D-</string>
+    <string name="subscriber">구독자</string>
+    <string name="subscriber_unit">명</string>
+    <string name="day">일</string>
+    <string name="time">시간</string>
 </resources>

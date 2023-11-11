@@ -11,6 +11,8 @@ internal val Black = Color(0xFF000000)
 internal val GreenPrimary = Color(0xFF2B884F)
 internal val RedPrimary = Color(0xFFF45548)
 
+internal val Red200 = Color(0xFFE96055)
+
 internal val Green200 = Color(0xFF41BC8E)
 internal val Green400 = Color(0xFF2B884F)
 internal val Green700 = Color(0xFF0D542C)
@@ -35,6 +37,7 @@ data class Colors(
     val Green200: Color,
     val Green400: Color,
     val Green700: Color,
+    val Red200: Color,
     val Black100: Color,
     val Black200: Color,
     val Black300: Color,
@@ -56,6 +59,7 @@ val customColors = Colors(
     Green200 = Green200,
     Green400 = Green400,
     Green700 = Green700,
+    Red200 = Red200,
     Black100 = Black100,
     Black200 = Black200,
     Black300 = Black300,

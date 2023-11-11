@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_calendar">캘린더 편집하기</string>
+    <string name="go_to_calendar">캘린더 보러가기</string>
+    <string name="from_prefix">from.</string>
+    <string name="remain_datetime_prefix">크리스마스까지 </string>
+    <string name="remain_datetime_suffix"> 남음</string>
+</resources>

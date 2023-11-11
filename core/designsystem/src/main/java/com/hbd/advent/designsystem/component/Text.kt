@@ -7,15 +7,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hbd.advent.designsystem.theme.AdventTheme
 
 @Composable
-fun ScreenTitle(title: String){
+fun ScreenTitle(
+    title: String,
+    color: Color = AdventTheme.colors.Black
+){
     Text(
         text = title,
-        style = AdventTheme.typography.H1
+        style = AdventTheme.typography.H1,
+        color = color
     )
 }
 
