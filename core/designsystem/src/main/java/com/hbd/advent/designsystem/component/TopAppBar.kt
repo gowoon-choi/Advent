@@ -6,8 +6,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.hbd.advent.designsystem.R
 import com.hbd.advent.designsystem.theme.AdventTheme
 
@@ -52,7 +54,42 @@ fun DefaultAppBarWithCloseButton(
         actions = {
             Row {
                 IconButton(onClick = onClickClose) {
-                    Icon(painter = painterResource(id = R.drawable.close), contentDescription = null)
+                    Icon(
+                        painter = painterResource(id = R.drawable.close),
+                        contentDescription = null
+                    )
+                }
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeAppBar(
+    onClickAdd: () -> Unit,
+    onClickProfile: () -> Unit
+) {
+    TopAppBar(
+        title = { },
+        navigationIcon = {
+            // TODO - logo
+        },
+        actions = {
+            Row {
+                IconButton(onClick = onClickAdd) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.new_calendar),
+                        contentDescription = null,
+                        tint = AdventTheme.colors.Black300
+                    )
+                }
+                IconButton(onClick = onClickProfile) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.my_filled),
+                        contentDescription = null,
+                        tint = AdventTheme.colors.Black300
+                    )
                 }
             }
         }
@@ -61,11 +98,6 @@ fun DefaultAppBarWithCloseButton(
 
 @Composable
 fun DefaultAppBarWithTextButton() {
-
-}
-
-@Composable
-fun HomeAppBar() {
 
 }
 
