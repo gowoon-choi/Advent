@@ -7,11 +7,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.hbd.advent.designsystem.R
 import com.hbd.advent.designsystem.theme.AdventTheme
+import com.hbd.advent.designsystem.theme.Colors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -20,6 +24,7 @@ fun DefaultAppBar(
     onClickNav: () -> Unit
 ) {
     CenterAlignedTopAppBar(
+        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = Color.Transparent),
         title = {
             title?.let {
                 Text(text = it, style = AdventTheme.typography.H2)
@@ -41,6 +46,7 @@ fun DefaultAppBarWithCloseButton(
     onClickClose: () -> Unit
 ) {
     CenterAlignedTopAppBar(
+        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = Color.Transparent),
         title = {
             title?.let {
                 Text(text = it, style = AdventTheme.typography.H2)
@@ -71,6 +77,7 @@ fun HomeAppBar(
     onClickProfile: () -> Unit
 ) {
     TopAppBar(
+        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = Color.Transparent),
         title = { },
         navigationIcon = {
             // TODO - logo
