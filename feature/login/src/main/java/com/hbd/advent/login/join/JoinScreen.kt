@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.hbd.advent.designsystem.component.DefaultButton
+import com.hbd.advent.designsystem.component.ScreenTitle
 import com.hbd.advent.login.R
 import com.hbd.advent.designsystem.R as commonR
 import com.hbd.advent.designsystem.component.SingleLineInputBox
@@ -46,10 +47,7 @@ fun InitNicknameScreen(
             )
     ) {
         Column {
-            Text(
-                text = stringResource(id = R.string.nickname_title),
-                style = AdventTheme.typography.H1
-            )
+            ScreenTitle(title = stringResource(id = R.string.nickname_title))
             SingleLineInputBox(
                 modifier = Modifier.padding(top = 28.dp),
                 text = text,
@@ -57,7 +55,9 @@ fun InitNicknameScreen(
                 onTextChanged = { text = it })
         }
         DefaultButton(
-            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
             title = stringResource(id = commonR.string.common_button_next),
             enabled = text.text.isNotEmpty()
         ) {

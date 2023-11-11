@@ -12,5 +12,7 @@
     <string name="calendar_name_input_placeholder">캘린더 이름을 지정해주세요</string>
     <string name="calendar_theme_name_green">크리스마스 트리</string>
     <string name="calendar_theme_name_red">크리스마스 파티</string>
+    <string name="create_calendar_success_title">캘린더를 생성했어요</string>
+    <string name="create_calendar_success_subtitle">25개 선물을 모두 담지 않아도 괜찮아요\n마음만 전해줘도 충분해요</string>
 
 </resources>

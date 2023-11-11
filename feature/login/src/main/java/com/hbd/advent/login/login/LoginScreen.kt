@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.hbd.advent.designsystem.component.ScreenTitle
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.login.R
 import com.hbd.advent.login.navigation.LoginNavRoute
@@ -29,24 +30,26 @@ fun LoginScreen(
         modifier = Modifier
             .background(AdventTheme.colors.BgLight)
             .fillMaxSize()
-    ) {
-        Text(
-            modifier = Modifier.padding(
+            .padding(
                 top = dimensionResource(id = commonR.dimen.large_padding),
-                start = dimensionResource(id = commonR.dimen.default_padding)
-            ),
-            text = stringResource(
+                start = dimensionResource(id = commonR.dimen.default_padding),
+                bottom = dimensionResource(id = commonR.dimen.default_padding),
+                end = dimensionResource(id = commonR.dimen.default_padding)
+            )
+    ) {
+        ScreenTitle(
+            title = stringResource(
                 id = R.string.login_title,
                 stringResource(id = R.string.app_name)
-            ),
-            style = AdventTheme.typography.H1
+            )
         )
         Icon(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 100.dp)
                 .clickable {
-                    navController.navigate(LoginNavRoute.initNickname) },
+                    navController.navigate(LoginNavRoute.initNickname)
+                },
             painter = painterResource(id = R.drawable.kakao_login_btn),
             contentDescription = null,
             tint = Color.Unspecified
