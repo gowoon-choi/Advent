@@ -54,25 +54,22 @@ import com.hbd.advent.designsystem.util.calculateCurrentOffsetForPage
 import com.hbd.advent.home.component.CalendarCardGift
 import com.hbd.advent.home.component.CalendarCardSanta
 import com.hbd.advent.home.component.Switch
+import com.hbd.domain.model.FeatureMode
 import com.hbd.domain.model.UiTheme
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.absoluteValue
 
-enum class Mode {
-    SANTA, GIFT
-}
-
 @Composable
 fun HomeScreen() {
-    var mode by remember { mutableStateOf(Mode.SANTA) }
+    var mode by remember { mutableStateOf(FeatureMode.SANTA) }
     Crossfade(targetState = mode, label = "") { it ->
         when (it) {
-            Mode.SANTA -> HomeSantaContent {
+            FeatureMode.SANTA -> HomeSantaContent {
                 mode = it
             }
 
-            Mode.GIFT -> HomeGiftContent {
+            FeatureMode.GIFT -> HomeGiftContent {
                 mode = it
             }
         }
@@ -80,20 +77,20 @@ fun HomeScreen() {
 }
 
 @Composable
-fun HomeSantaContent(onChangedMode: (Mode) -> Unit) {
+fun HomeSantaContent(onChangedMode: (FeatureMode) -> Unit) {
     HomeContent(
         bgResId = R.drawable.santa_bg,
-        mode = Mode.SANTA,
+        mode = FeatureMode.SANTA,
         onClickAdd = { /*TODO*/ },
         onChangedMode = onChangedMode
     )
 }
 
 @Composable
-fun HomeGiftContent(onChangedMode: (Mode) -> Unit) {
+fun HomeGiftContent(onChangedMode: (FeatureMode) -> Unit) {
     HomeContent(
         bgResId = R.drawable.gift_bg,
-        mode = Mode.GIFT,
+        mode = FeatureMode.GIFT,
         onClickAdd = { /*TODO*/ },
         onChangedMode = onChangedMode
     )
@@ -103,9 +100,9 @@ fun HomeGiftContent(onChangedMode: (Mode) -> Unit) {
 @Composable
 fun HomeContent(
     bgResId: Int,
-    mode: Mode,
+    mode: FeatureMode,
     onClickAdd: () -> Unit,
-    onChangedMode: (Mode) -> Unit
+    onChangedMode: (FeatureMode) -> Unit
 ) {
     // TODO - calendar data class
     val remainDay = "24"
@@ -125,6 +122,7 @@ fun HomeContent(
         Scaffold(
             topBar = {
                 HomeAppBar(
+                    mode = mode,
                     onClickAdd = onClickAdd,
                     onClickProfile = {
                         // TODO - go to mypage
@@ -155,7 +153,7 @@ fun HomeContent(
                             color = if (theme == UiTheme.GREEN) AdventTheme.colors.Green200 else AdventTheme.colors.Red200
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        ScreenTitle(title = title, color = if(mode == Mode.SANTA) AdventTheme.colors.White else AdventTheme.colors.Black)
+                        ScreenTitle(title = title, color = if(mode == FeatureMode.SANTA) AdventTheme.colors.White else AdventTheme.colors.Black)
                     }
                     Switch(
                         modifier = Modifier.align(Alignment.BottomEnd),
@@ -190,7 +188,7 @@ fun HomeContent(
 @Composable
 fun CalendarPager(
     pagerState: PagerState,
-    mode: Mode,
+    mode: FeatureMode,
     // calendar list
 ) {
     HorizontalPager(
@@ -210,13 +208,13 @@ fun CalendarPager(
             alpha = absValue * (1f - alphaValue) + alphaValue
         }
         when (mode) {
-            Mode.SANTA -> CalendarCardSanta(
+            FeatureMode.SANTA -> CalendarCardSanta(
                 modifier = animatedModifier,
                 title = it.toString(),
                 subscriberCount = it
             )
 
-            Mode.GIFT -> CalendarCardGift(
+            FeatureMode.GIFT -> CalendarCardGift(
                 modifier = animatedModifier,
                 title = it.toString(),
                 from = it.toString()
@@ -254,7 +252,7 @@ fun RemainDateTimeText(
 fun Indicator(
     modifier: Modifier,
     // calendar list,
-    mode: Mode,
+    mode: FeatureMode,
     currentIndex: Int,
     onChangedCurrentIndex: (Int) -> Unit
 ) {
@@ -269,12 +267,12 @@ fun Indicator(
                     .clip(CircleShape)
                     .background(
                         when (mode) {
-                            Mode.SANTA -> {
+                            FeatureMode.SANTA -> {
                                 if (currentIndex == it) AdventTheme.colors.Black200
                                 else AdventTheme.colors.Black500
                             }
 
-                            Mode.GIFT -> {
+                            FeatureMode.GIFT -> {
                                 if (currentIndex == it) AdventTheme.colors.Black450
                                 else AdventTheme.colors.Black300
                             }

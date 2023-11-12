@@ -1,7 +1,6 @@
 package com.hbd.advent.home.component
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -17,7 +16,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,17 +28,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.hbd.advent.designsystem.theme.AdventTheme
-import com.hbd.advent.home.Mode
 import com.hbd.advent.home.R
+import com.hbd.domain.model.FeatureMode
 import kotlinx.coroutines.delay
 
 @Composable
 fun Switch(
     modifier: Modifier = Modifier,
-    selectedMode: Mode,
-    onChangeMode: (Mode) -> Unit
+    selectedMode: FeatureMode,
+    onChangeMode: (FeatureMode) -> Unit
 ) {
-    var state by remember { mutableStateOf(if(selectedMode == Mode.SANTA) 1f else -1f) }
+    var state by remember { mutableStateOf(if(selectedMode == FeatureMode.SANTA) 1f else -1f) }
     val animatedColor by animateColorAsState(
         if(state == -1f) AdventTheme.colors.Black200 else AdventTheme.colors.Black650,
         tween(500),
@@ -52,10 +50,10 @@ fun Switch(
         label = ""
     ){
         if(state == 1f){
-            onChangeMode(Mode.SANTA)
+            onChangeMode(FeatureMode.SANTA)
         }
         if(state == -1f){
-            onChangeMode(Mode.GIFT)
+            onChangeMode(FeatureMode.GIFT)
         }
     }
     Box(
