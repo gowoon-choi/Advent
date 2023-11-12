@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import com.hbd.advent.designsystem.component.Calendar
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.navigation.AdventNavHost
 import com.hbd.advent.navigation.AppRoute
@@ -30,14 +31,18 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AdventApp(navController: NavController){
-    Surface(Modifier.fillMaxSize().background(Color.White)) {
-        Column {
-            Button(onClick = { navController.navigate(AppRoute.loginGraph) }) {
-                Text(text = "go to login")
-            }
-            Button(onClick = { navController.navigate(AppRoute.homeGraph) }) {
-                Text(text = "go home")
-            }
-        }
+    Surface(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)) {
+        Calendar()
+//        Column {
+//            Button(onClick = { navController.navigate(AppRoute.loginGraph) }) {
+//                Text(text = "go to login")
+//            }
+//            Button(onClick = { navController.navigate(AppRoute.homeGraph) }) {
+//                Text(text = "go home")
+//            }
+//        }
     }
 }
