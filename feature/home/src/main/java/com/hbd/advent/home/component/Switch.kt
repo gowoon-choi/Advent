@@ -1,6 +1,9 @@
 package com.hbd.advent.home.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -38,17 +41,20 @@ fun Switch(
     onChangeMode: (Mode) -> Unit
 ) {
     var state by remember { mutableStateOf(if(selectedMode == Mode.SANTA) 1f else -1f) }
-    val animatedAlignment by animateFloatAsState(state, label = "")
-    var modeForBg by remember { mutableStateOf(selectedMode) }
-    LaunchedEffect(state){
+    val animatedColor by animateColorAsState(
+        if(state == -1f) AdventTheme.colors.Black200 else AdventTheme.colors.Black650,
+        tween(500),
+        label = ""
+    )
+    val animatedAlignment by animateFloatAsState(
+        state,
+        tween(500),
+        label = ""
+    ){
         if(state == 1f){
-            modeForBg = Mode.SANTA
-            delay(150L)
             onChangeMode(Mode.SANTA)
         }
         if(state == -1f){
-            modeForBg = Mode.GIFT
-            delay(150L)
             onChangeMode(Mode.GIFT)
         }
     }
@@ -57,7 +63,7 @@ fun Switch(
             .width(60.dp)
             .height(32.dp)
             .clip(RoundedCornerShape(100.dp))
-            .background(if (modeForBg == Mode.GIFT) AdventTheme.colors.Black200 else AdventTheme.colors.Black650)
+            .background(animatedColor)
             .padding(5.dp)
     ){
         Icon(
@@ -79,7 +85,7 @@ fun Switch(
         Column(Modifier.fillMaxSize()){
             Box(
                 modifier = Modifier
-                    .size(22.dp)
+                    .size(23.dp)
                     .clip(CircleShape)
                     .background(AdventTheme.colors.White)
                     .align(BiasAlignment.Horizontal(animatedAlignment))

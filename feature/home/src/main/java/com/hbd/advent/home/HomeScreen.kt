@@ -1,5 +1,6 @@
 package com.hbd.advent.home
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -65,13 +66,15 @@ enum class Mode {
 @Composable
 fun HomeScreen() {
     var mode by remember { mutableStateOf(Mode.SANTA) }
-    when (mode) {
-        Mode.SANTA -> HomeSantaContent {
-            mode = it
-        }
+    Crossfade(targetState = mode, label = "") { it ->
+        when (it) {
+            Mode.SANTA -> HomeSantaContent {
+                mode = it
+            }
 
-        Mode.GIFT -> HomeGiftContent {
-            mode = it
+            Mode.GIFT -> HomeGiftContent {
+                mode = it
+            }
         }
     }
 }
@@ -152,7 +155,7 @@ fun HomeContent(
                             color = if (theme == UiTheme.GREEN) AdventTheme.colors.Green200 else AdventTheme.colors.Red200
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        ScreenTitle(title = title, color = AdventTheme.colors.White)
+                        ScreenTitle(title = title, color = if(mode == Mode.SANTA) AdventTheme.colors.White else AdventTheme.colors.Black)
                     }
                     Switch(
                         modifier = Modifier.align(Alignment.BottomEnd),
