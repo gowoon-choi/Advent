@@ -1,13 +1,14 @@
 [versions]
 androidGradlePlugin = "8.1.1"
+hilt = "2.48.1"
 kotlin = "1.8.10"
-androidxCore = "1.9.0"
+androidxCore = "1.12.0"
 androidxLifecycle = "2.6.2"
 androidxCompose = "1.8.0"
-androidxComposeBom = "2023.03.00"
+androidxComposeBom = "2023.10.01"
 androidxExt = "1.1.5"
 androidxEspresso = "3.5.1"
-androidxNavigation = "2.5.3"
+androidxNavigation = "2.7.5"
 junit4 = "4.13.2"
 androidXappcompat = "1.6.1"
 appcompat = "1.6.1"
@@ -33,6 +34,8 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxExt" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
@@ -46,5 +49,6 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin"}
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
+dagger-hilt-android-plugins = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 
 [bundles]
