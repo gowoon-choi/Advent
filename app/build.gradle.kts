@@ -9,9 +9,9 @@ plugins {
     alias(libs.plugins.dagger.hilt.android.plugins)
 }
 
-val securePropertyFile = rootProject.file("secure.properties")
-val secureProperties = Properties()
-secureProperties.load(FileInputStream(securePropertyFile))
+val properties = Properties().apply {
+    load(FileInputStream(rootProject.file("secure.properties")))
+}
 
 
 android {
@@ -30,7 +30,8 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", secureProperties["KAKAO_NATIVE_APP_KEY"] as String)
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"${properties["KAKAO_NATIVE_APP_KEY"]}\"")
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = properties["KAKAO_NATIVE_APP_KEY"] as String
     }
 
     buildTypes {
@@ -46,8 +47,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin{
+        jvmToolchain {
+            languageVersion.set(JavaLanguageVersion.of("11"))
+        }
     }
     buildFeatures {
         compose = true
@@ -58,6 +61,12 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
+    packaging {
+        resources {
+            excludes += "META-INF/gradle/incremental.annotation.processors"
         }
     }
 }
@@ -78,7 +87,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.hilt.android)
-    implementation(libs.hilt.android.compiler)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.timber)
 
     implementation(libs.kakao.user)
 

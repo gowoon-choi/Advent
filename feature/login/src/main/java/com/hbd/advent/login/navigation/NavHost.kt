@@ -17,7 +17,7 @@ fun NavGraphBuilder.loginGraph(
         route = LoginNavRoute.graph
     ){
         composable(LoginNavRoute.login){
-            LoginScreen(navController)
+            LoginScreen(navController = navController)
         }
         composable(LoginNavRoute.initNickname){
             InitNicknameScreen(navController)

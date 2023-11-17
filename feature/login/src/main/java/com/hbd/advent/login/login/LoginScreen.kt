@@ -14,15 +14,16 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hbd.advent.designsystem.component.ScreenTitle
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.login.R
-import com.hbd.advent.login.navigation.LoginNavRoute
 import com.hbd.advent.designsystem.R as commonR
 
 @Composable
 fun LoginScreen(
+    viewModel: LoginViewModel = hiltViewModel(),
     navController: NavController
 ) {
     Box(
@@ -47,7 +48,8 @@ fun LoginScreen(
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 100.dp)
                 .clickable {
-                    navController.navigate(LoginNavRoute.initNickname)
+                    viewModel.setEvent(LoginUiEvent.OnClickLoginButton)
+                    //navController.navigate(LoginNavRoute.initNickname)
                 },
             painter = painterResource(id = R.drawable.kakao_login_btn),
             contentDescription = null,

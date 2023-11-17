@@ -114,7 +114,7 @@ fun HomeContent(
     val title = "크리스마스가\n얼마 안남았어요."
 
     val scope = rememberCoroutineScope()
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState{ 3 }
     Box {
         Image(
             modifier = Modifier.fillMaxSize(),
@@ -195,7 +195,6 @@ fun CalendarPager(
 ) {
     HorizontalPager(
         state = pagerState,
-        pageCount = 3,
         pageSize = PageSize.Fixed(256.dp),
         contentPadding = PaddingValues(horizontal = 68.dp)
     ) {

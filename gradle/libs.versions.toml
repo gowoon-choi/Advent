@@ -17,6 +17,9 @@ org-jetbrains-kotlin-jvm = "1.8.10"
 coil = "2.5.0"
 kakao = "2.17.0"
 coroutine = "1.7.3"
+hiltNavigationCompose = "1.1.0"
+datastore = "1.0.0"
+timber = "5.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore"}
@@ -43,6 +46,9 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao" }
 coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine"}
 coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }
+hilt-android-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+datastore-preference = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

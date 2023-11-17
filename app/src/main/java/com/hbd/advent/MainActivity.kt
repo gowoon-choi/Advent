@@ -4,8 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,6 +16,7 @@ import androidx.navigation.NavController
 import com.hbd.advent.designsystem.component.Calendar
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.navigation.AdventNavHost
+import com.hbd.advent.navigation.AppRoute
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,14 +37,13 @@ fun AdventApp(navController: NavController){
         Modifier
             .fillMaxSize()
             .background(Color.White)) {
-        Calendar()
-//        Column {
-//            Button(onClick = { navController.navigate(AppRoute.loginGraph) }) {
-//                Text(text = "go to login")
-//            }
-//            Button(onClick = { navController.navigate(AppRoute.homeGraph) }) {
-//                Text(text = "go home")
-//            }
-//        }
+        Column {
+            Button(onClick = { navController.navigate(AppRoute.loginGraph) }) {
+                Text(text = "go to login")
+            }
+            Button(onClick = { navController.navigate(AppRoute.homeGraph) }) {
+                Text(text = "go home")
+            }
+        }
     }
 }

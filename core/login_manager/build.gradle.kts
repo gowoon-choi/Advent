@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.hbd.advent.login"
+    namespace = "com.hbd.login_manager"
     compileSdk = 34
 
     defaultConfig {
@@ -35,36 +35,19 @@ android {
             languageVersion.set(JavaLanguageVersion.of("11"))
         }
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:login_manager"))
     implementation(project(":core:datastore"))
-    implementation(project(":feature:common"))
-    implementation(project(":feature:create_calendar"))
+
+    implementation(libs.kakao.user)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.timber)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.android.navigation)
-    kapt(libs.hilt.android.compiler)
-    implementation(libs.timber)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
