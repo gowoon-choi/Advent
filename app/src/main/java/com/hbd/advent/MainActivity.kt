@@ -17,7 +17,9 @@ import com.hbd.advent.designsystem.component.Calendar
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.navigation.AdventNavHost
 import com.hbd.advent.navigation.AppRoute
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,14 +37,13 @@ fun AdventApp(navController: NavController){
         Modifier
             .fillMaxSize()
             .background(Color.White)) {
-        Calendar()
-//        Column {
-//            Button(onClick = { navController.navigate(AppRoute.loginGraph) }) {
-//                Text(text = "go to login")
-//            }
-//            Button(onClick = { navController.navigate(AppRoute.homeGraph) }) {
-//                Text(text = "go home")
-//            }
-//        }
+        Column {
+            Button(onClick = { navController.navigate(AppRoute.loginGraph) }) {
+                Text(text = "go to login")
+            }
+            Button(onClick = { navController.navigate(AppRoute.homeGraph) }) {
+                Text(text = "go home")
+            }
+        }
     }
 }

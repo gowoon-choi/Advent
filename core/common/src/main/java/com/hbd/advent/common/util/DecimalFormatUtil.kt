@@ -1,4 +1,4 @@
-package com.hbd.advent.common
+package com.hbd.advent.common.util
 
 import java.text.DecimalFormat
 

@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://devrepo.kakao.com/nexus/content/groups/public/")
     }
 }
 
@@ -23,3 +24,7 @@ include(":core:domain")
 include(":feature:calendar:santa")
 include(":feature:calendar:gift")
 include(":core:common")
+include(":feature:common")
+include(":core:login_manager")
+include(":core:datastore")
+include(":core:data")

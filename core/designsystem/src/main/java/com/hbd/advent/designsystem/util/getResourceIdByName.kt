@@ -2,7 +2,7 @@ package com.hbd.advent.designsystem.util
 
 import android.content.Context
 import android.content.res.Resources.NotFoundException
-import com.hbd.advent.common.DecimalFormatUtil
+import com.hbd.advent.common.util.DecimalFormatUtil
 import com.hbd.advent.designsystem.R
 import com.hbd.domain.model.GiftGiftState
 import com.hbd.domain.model.SantaGiftState
