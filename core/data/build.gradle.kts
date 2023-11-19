@@ -1,13 +1,21 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.kotlin.android)
     kotlin("kapt")
     alias(libs.plugins.dagger.hilt.android.plugins)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+val properties = Properties().apply {
+    load(FileInputStream(rootProject.file("secure.properties")))
 }
 
 android {
-    namespace = "com.hbd.advent.login"
+    namespace = "com.hbd.data"
     compileSdk = 34
 
     defaultConfig {
@@ -15,6 +23,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "BASE_URL", properties["BASE_URL"] as String)
     }
 
     buildTypes {
@@ -35,43 +45,23 @@ android {
             languageVersion.set(JavaLanguageVersion.of("11"))
         }
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:login_manager"))
     implementation(project(":core:datastore"))
-    implementation(project(":core:domain"))
     implementation(project(":core:common"))
-    implementation(project(":core:data"))
-    implementation(project(":feature:common"))
-    implementation(project(":feature:create_calendar"))
-    implementation(project(":feature:home"))
+    implementation(project(":core:domain"))
 
-    implementation(libs.kakao.user)
-
-    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.timber)
+    implementation(libs.kotlinx.serialization)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.kotlin.serialization)
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.android.navigation)
-    kapt(libs.hilt.android.compiler)
-    implementation(libs.timber)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)

@@ -6,16 +6,18 @@ import com.hbd.advent.feature.common.BaseViewModel
 import com.hbd.advent.feature.common.UiEffect
 import com.hbd.advent.feature.common.UiEvent
 import com.hbd.advent.feature.common.UiState
+import com.hbd.domain.usecase.LoginUseCase
 import com.hbd.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import com.hbd.advent.common.model.Result
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginManager: LoginManager,
-    private val preferenceManager: PreferenceManager
+    private val loginUseCase: LoginUseCase,
 ): BaseViewModel<LoginUiState, LoginUiEvent, LoginUiEffect>(){
     override fun createInitialState(): LoginUiState {
         return LoginUiState(LoginState.BEFORE)
@@ -33,17 +35,28 @@ class LoginViewModel @Inject constructor(
         loginManager.requestLogin { token, error ->
             if(token != null){
                 viewModelScope.launch {
-                    preferenceManager.setUserToken(token.accessToken)
+                    loginUseCase.login(token.accessToken).collect{
+                        when(it){
+                            is Result.Success -> {
+                                setState(currentState.copy(state = LoginState.SUCCESS(it.data.newUser)))
+                            }
+                            is Result.Error -> {
+                                // TODO error handling
+                                setState(currentState.copy(state = LoginState.FAILED))
+                            }
+                        }
+                    }
                 }
             }
 
-            if(token != null){
+            if(error != null){
                 Timber.d("kakao login failed", error)
+                setState(currentState.copy(LoginState.FAILED))
             }
         }
     }
 
-    private fun
+
 
 }
 
@@ -51,8 +64,10 @@ data class LoginUiState(
     val state: LoginState
 ): UiState
 
-enum class LoginState{
-    BEFORE, SUCCESS, FAILED
+sealed class LoginState{
+    object BEFORE: LoginState()
+    data class SUCCESS(val newUser: Boolean): LoginState()
+    object FAILED: LoginState()
 }
 
 sealed class LoginUiEvent: UiEvent {

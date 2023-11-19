@@ -14,3 +14,9 @@ kotlin {
         languageVersion.set(JavaLanguageVersion.of("11"))
     }
 }
+
+dependencies {
+    implementation(project(":core:common"))
+    implementation(libs.hilt.core)
+    implementation(libs.coroutine.core)
+}

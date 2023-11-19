@@ -1,7 +1,6 @@
 package com.hbd.advent
 
 import android.app.Application
-import android.util.Log
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
