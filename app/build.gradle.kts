@@ -73,8 +73,10 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:common"))
+    implementation(project(":feature:common"))
     implementation(project(":feature:login"))
-    implementation(project(":feature:create_calendar"))
     implementation(project(":feature:home"))
 
     implementation(libs.androidx.core.ktx)
@@ -88,6 +90,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.android.navigation)
     implementation(libs.timber)
 
     implementation(libs.kakao.user)

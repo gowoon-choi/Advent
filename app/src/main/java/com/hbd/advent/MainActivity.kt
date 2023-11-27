@@ -4,16 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.hbd.advent.designsystem.component.Calendar
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.navigation.AdventNavHost
 import com.hbd.advent.navigation.AppRoute
@@ -32,17 +31,25 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AdventApp(navController: NavController){
+fun AdventApp(
+    navController: NavController,
+    viewModel: MainViewModel = hiltViewModel()
+) {
+    val state by viewModel.uiState.collectAsState()
     Surface(
         Modifier
             .fillMaxSize()
-            .background(Color.White)) {
-        Column {
-            Button(onClick = { navController.navigate(AppRoute.loginGraph) }) {
-                Text(text = "go to login")
+            .background(Color.White)
+    ) {
+        when (state.route) {
+            TargetRoute.LOGIN -> {
+                navController.navigate(AppRoute.loginGraph)
             }
-            Button(onClick = { navController.navigate(AppRoute.homeGraph) }) {
-                Text(text = "go home")
+            TargetRoute.NICKNAME -> {
+                navController.navigate(AppRoute.initNicknameGraph)
+            }
+            TargetRoute.HOME -> {
+                navController.navigate(AppRoute.homeGraph)
             }
         }
     }

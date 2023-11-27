@@ -63,7 +63,7 @@ fun LoginScreen(
             }
             is LoginState.SUCCESS -> {
                 if((state.state as LoginState.SUCCESS).newUser){
-                    navController.navigate(LoginNavRoute.initNickname)
+                    navController.navigate(LoginNavRoute.initNicknameGraph)
                 } else {
                     navController.navigate(LoginNavRoute.homeGraph)
                 }

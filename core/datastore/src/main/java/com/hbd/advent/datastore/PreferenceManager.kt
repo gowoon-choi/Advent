@@ -23,4 +23,14 @@ class PreferenceManager(
     val userToken: Flow<String?> = context.dataStore.data.map {
         it[PreferenceKeys.token]
     }
+
+    suspend fun setUserNickname(nickname: String) {
+        context.dataStore.edit {
+            it[PreferenceKeys.nickname] = nickname
+        }
+    }
+
+    val userNickname: Flow<String?> = context.dataStore.data.map {
+        it[PreferenceKeys.nickname]
+    }
 }

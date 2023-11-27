@@ -19,7 +19,18 @@ fun NavGraphBuilder.loginGraph(
         composable(LoginNavRoute.login){
             LoginScreen(navController = navController)
         }
-        composable(LoginNavRoute.initNickname){
+        initNicknameGraph(navController)
+    }
+}
+
+fun NavGraphBuilder.initNicknameGraph(
+    navController: NavHostController
+){
+    navigation(
+        startDestination = InitNicknameNavRoute.initNickname,
+        route = InitNicknameNavRoute.graph
+    ){
+        composable(InitNicknameNavRoute.initNickname){
             InitNicknameScreen(navController)
         }
         createCalendarGraph(navController)

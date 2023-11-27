@@ -1,12 +1,11 @@
 package com.hbd.advent.login.login
 
 import androidx.lifecycle.viewModelScope
-import com.hbd.advent.datastore.PreferenceManager
 import com.hbd.advent.feature.common.BaseViewModel
 import com.hbd.advent.feature.common.UiEffect
 import com.hbd.advent.feature.common.UiEvent
 import com.hbd.advent.feature.common.UiState
-import com.hbd.domain.usecase.LoginUseCase
+import com.hbd.domain.usecase.user.LoginUseCase
 import com.hbd.login_manager.LoginManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +17,7 @@ import com.hbd.advent.common.model.Result
 class LoginViewModel @Inject constructor(
     private val loginManager: LoginManager,
     private val loginUseCase: LoginUseCase,
-): BaseViewModel<LoginUiState, LoginUiEvent, LoginUiEffect>(){
+): BaseViewModel<LoginUiState, LoginUiEvent, UiEffect>(){
     override fun createInitialState(): LoginUiState {
         return LoginUiState(LoginState.BEFORE)
     }
@@ -35,7 +34,7 @@ class LoginViewModel @Inject constructor(
         loginManager.requestLogin { token, error ->
             if(token != null){
                 viewModelScope.launch {
-                    loginUseCase.login(token.accessToken).collect{
+                    loginUseCase(token.accessToken).collect{
                         when(it){
                             is Result.Success -> {
                                 setState(currentState.copy(state = LoginState.SUCCESS(it.data.newUser)))
@@ -72,9 +71,4 @@ sealed class LoginState{
 
 sealed class LoginUiEvent: UiEvent {
     object OnClickLoginButton: LoginUiEvent()
-}
-
-sealed class LoginUiEffect: UiEffect {
-    object GoToJoin: LoginUiEffect()
-    object GoToHome: LoginUiEffect()
 }

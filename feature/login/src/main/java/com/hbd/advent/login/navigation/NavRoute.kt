@@ -7,8 +7,14 @@ object LoginNavRoute{
     const val graph = "loginGraph"
 
     const val login = "login"
-    const val initNickname = "initNickname"
 
+    const val initNicknameGraph = InitNicknameNavRoute.graph
     const val createCalendarGraph = CreateCalendarRoute.graph
     const val homeGraph = HomeNavRoute.graph
+}
+
+object InitNicknameNavRoute{
+    const val graph = "initNicknameGraph"
+
+    const val initNickname = "initNickname"
 }
