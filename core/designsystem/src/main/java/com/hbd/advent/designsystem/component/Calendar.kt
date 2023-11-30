@@ -3,17 +3,24 @@ package com.hbd.advent.designsystem.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,27 +39,54 @@ import com.hbd.advent.designsystem.R
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.designsystem.util.getGiftResourceId
 import com.hbd.advent.designsystem.util.getSantaResourceId
+import com.hbd.domain.DomainConst
+import com.hbd.domain.model.GiftGift
 import com.hbd.domain.model.GiftGiftState
+import com.hbd.domain.model.SantaGift
 import com.hbd.domain.model.SantaGiftState
 import com.hbd.domain.model.UiTheme
 
 @Composable
-fun Calendar(){
+fun CalendarGift(
+    theme: UiTheme,
+    gifts: List<GiftGift>,
+    onClick: (index: Int) -> Unit
+){
+    Calendar {
+        GiftCalendarItem(theme = theme, state = gifts[it].state, date = it+1) {
+            onClick(it)
+        }
+    }
+}
+
+@Composable
+fun CalendarSanta(
+    theme: UiTheme,
+    gifts: List<SantaGift>,
+    onClick: (index: Int) -> Unit
+){
+    Calendar {
+        SantaCalendarItem(theme = theme, state = gifts[it].state, date = it+1) {
+            onClick(it)
+        }
+    }
+}
+
+@Composable
+fun Calendar(
+    content: @Composable (index: Int) -> Unit,
+){
     LazyVerticalGrid(
+        modifier = Modifier.height(1200.dp),
         columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(dimensionResource(id = R.dimen.default_padding)),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ){
-        items(24){
-            SantaCalendarItem(theme = UiTheme.GREEN, state = SantaGiftState.SAVE, date = it+1) {
-                
-            }
+        items(DomainConst.giftCount-1){
+            content(it)
         }
         item(span = { GridItemSpan(3) }){
-            SantaCalendarItem(theme = UiTheme.GREEN, state = SantaGiftState.SAVE, date = 25) {
-
-            }
+            content(DomainConst.giftCount-1)
         }
     }
 }
@@ -161,7 +195,13 @@ fun CalendarPreview() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.White)){
-        Calendar()
+            .background(Color.White)
+    ){
+        Column(Modifier.verticalScroll(rememberScrollState())) {
+            Text(text = "rksk")
+            CalendarSanta(theme = UiTheme.GREEN, gifts = List(DomainConst.giftCount){ SantaGift(SantaGiftState.SAVE) }){
+
+            }
+        }
     }
 }

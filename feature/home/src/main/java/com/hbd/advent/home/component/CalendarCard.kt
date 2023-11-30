@@ -20,9 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hbd.advent.designsystem.component.SubscriberView
+import com.hbd.advent.designsystem.component.TextWithPersonIcon
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.home.R
 
@@ -58,7 +57,7 @@ fun CalendarCardSanta(
         containerColor = AdventTheme.colors.Black700,
         title = title,
         subtitle = {
-            SubscriberView(
+            TextWithPersonIcon(
                 contentColor = AdventTheme.colors.Black450,
                 subscriberCount = subscriberCount
             )
