@@ -37,7 +37,7 @@ class LoginViewModel @Inject constructor(
                     loginUseCase(token.accessToken).collect{
                         when(it){
                             is Result.Success -> {
-                                setState(currentState.copy(state = LoginState.SUCCESS(it.data.newUser)))
+                                setState(currentState.copy(state = LoginState.SUCCESS(it.data?.newUser ?: false)))
                             }
                             is Result.Error -> {
                                 // TODO error handling

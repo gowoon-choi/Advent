@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -19,6 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.hbd.advent.designsystem.component.DefaultButton
@@ -28,13 +30,16 @@ import com.hbd.advent.designsystem.R as commonR
 import com.hbd.advent.designsystem.component.SingleLineInputBox
 import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.login.navigation.LoginNavRoute
-import com.hbd.create_calendar.navigation.CreateCalendarRoute
+import kotlinx.coroutines.launch
 
 @Composable
 fun InitNicknameScreen(
+    viewModel: JoinViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
+    val scope = rememberCoroutineScope()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val text by remember { mutableStateOf(TextFieldValue(state.nickname)) }
     Box(
         modifier = Modifier
             .background(AdventTheme.colors.BgLight)
@@ -52,7 +57,7 @@ fun InitNicknameScreen(
                 modifier = Modifier.padding(top = 28.dp),
                 text = text,
                 hint = stringResource(id = R.string.nickname_input_placeholder),
-                onTextChanged = { text = it })
+                onTextChanged = { viewModel.setEvent(JoinUiEvent.UpdateNickname(it.text)) })
         }
         DefaultButton(
             modifier = Modifier
@@ -61,7 +66,18 @@ fun InitNicknameScreen(
             title = stringResource(id = commonR.string.common_button_next),
             enabled = text.text.isNotEmpty()
         ) {
-            navController.navigate(LoginNavRoute.createCalendarGraph)
+            viewModel.setEvent(JoinUiEvent.OnClickDone)
+        }
+    }
+    SideEffect {
+        scope.launch {
+            viewModel.effect.collect{
+                when(it){
+                    is JoinUiEffect.GoToCreateCalendarScreen -> {
+                        navController.navigate(LoginNavRoute.createCalendarGraph)
+                    }
+                }
+            }
         }
     }
 }
@@ -70,5 +86,5 @@ fun InitNicknameScreen(
 @Preview
 @Composable
 fun InitNicknameScreenPreview() {
-    InitNicknameScreen(rememberNavController())
+    InitNicknameScreen(navController = rememberNavController())
 }

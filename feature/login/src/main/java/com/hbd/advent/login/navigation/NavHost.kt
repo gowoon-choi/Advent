@@ -31,7 +31,7 @@ fun NavGraphBuilder.initNicknameGraph(
         route = InitNicknameNavRoute.graph
     ){
         composable(InitNicknameNavRoute.initNickname){
-            InitNicknameScreen(navController)
+            InitNicknameScreen(navController = navController)
         }
         createCalendarGraph(navController)
     }

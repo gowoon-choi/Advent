@@ -11,3 +11,7 @@ object CreateCalendarRoute{
 
     const val homeGraph = HomeNavRoute.graph
 }
+
+object ArgumentKey{
+    const val nickname = "nickname"
+}

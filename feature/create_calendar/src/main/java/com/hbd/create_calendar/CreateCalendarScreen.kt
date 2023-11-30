@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.hbd.advent.designsystem.component.DefaultAppBar
 import com.hbd.advent.designsystem.component.DefaultAppBarWithCloseButton
@@ -39,22 +39,24 @@ import com.hbd.create_calendar.component.Theme
 import com.hbd.create_calendar.component.ThemeSelector
 import com.hbd.create_calendar.navigation.CreateCalendarRoute
 import com.hbd.domain.DomainConst
+import com.hbd.domain.model.UiTheme
 import kotlinx.coroutines.delay
 
 enum class Step {
     NAME, THEME
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateCalendarLandingScreen(navController: NavHostController) {
-    // TODO - 이전 페이지에서 받을듯..?
-    val nickname = "고운"
+fun CreateCalendarLandingScreen(
+    viewModel: CreateCalendarViewModel,
+    navController: NavHostController
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
     Scaffold(
         containerColor = AdventTheme.colors.BgLight,
         topBar = {
             DefaultAppBar {
-                // TODO go to home ( back button in appbar )
+                navController.navigate(CreateCalendarRoute.homeGraph)
             }
         }
     ) {
@@ -69,7 +71,7 @@ fun CreateCalendarLandingScreen(navController: NavHostController) {
                 )
         ) {
             ScreenTitleWithSubtitle(
-                title = stringResource(id = R.string.welcome_title, nickname),
+                title = stringResource(id = R.string.welcome_title, state.userNickname),
                 subtitle = stringResource(id = R.string.welcome_subtitle)
             )
             Row(
@@ -97,18 +99,26 @@ fun CreateCalendarLandingScreen(navController: NavHostController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateCalendarScreen(navController: NavHostController) {
-    // TODO
-    var step by remember { mutableStateOf(Step.THEME) }
+fun CreateCalendarScreen(
+    viewModel: CreateCalendarViewModel,
+    navController: NavHostController
+) {
+    var step by remember { mutableStateOf(Step.NAME) }
     Scaffold(
         containerColor = AdventTheme.colors.BgLight,
         topBar = {
             DefaultAppBarWithCloseButton(
                 title = stringResource(id = R.string.create_calendar_appbar_title),
-                onClickNav = { /*TODO*/ },
-                onClickClose = {})
+                onClickNav = {
+                    when(step){
+                        Step.NAME -> navController.navigate(CreateCalendarRoute.homeGraph)
+                        Step.THEME -> step = Step.NAME
+                    }
+                },
+                onClickClose = {
+                    navController.navigate(CreateCalendarRoute.homeGraph)
+                })
         }
     ) { paddingValues ->
         val modifier = Modifier
@@ -120,8 +130,8 @@ fun CreateCalendarScreen(navController: NavHostController) {
                 end = dimensionResource(id = com.hbd.advent.designsystem.R.dimen.default_padding),
             )
         when (step) {
-            Step.NAME -> CalendarNameSettingContent(modifier) { step = Step.THEME }
-            Step.THEME -> CalendarThemeSettingContent(modifier) {
+            Step.NAME -> CalendarNameSettingContent(viewModel, modifier) { step = Step.THEME }
+            Step.THEME -> CalendarThemeSettingContent(viewModel, modifier) {
                 navController.navigate(
                     CreateCalendarRoute.createCalendarSuccess
                 )
@@ -132,10 +142,12 @@ fun CreateCalendarScreen(navController: NavHostController) {
 
 @Composable
 fun CalendarNameSettingContent(
+    viewModel: CreateCalendarViewModel,
     modifier: Modifier = Modifier,
     onClickNext: () -> Unit
 ) {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val text by remember { mutableStateOf(TextFieldValue(state.calendarName)) }
     Box(modifier = modifier) {
         Column {
             ScreenTitleWithSubtitle(
@@ -150,7 +162,7 @@ fun CalendarNameSettingContent(
                 text = text,
                 hint = stringResource(id = R.string.calendar_name_input_placeholder)
             ) {
-                text = it
+                viewModel.setEvent(CreateCalendarUiEvent.UpdateCalendarName(it.text))
             }
         }
         DefaultButton(
@@ -166,10 +178,12 @@ fun CalendarNameSettingContent(
 
 @Composable
 fun CalendarThemeSettingContent(
+    viewModel: CreateCalendarViewModel,
     modifier: Modifier = Modifier,
     onClickDone: () -> Unit
 ) {
-    var currentTheme by remember { mutableStateOf(Theme.GREEN) }
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    //var currentTheme by remember { mutableStateOf(Theme.GREEN) }
     Box(modifier = modifier) {
         Column {
             ScreenTitleWithSubtitle(
@@ -179,8 +193,18 @@ fun CalendarThemeSettingContent(
         }
         ThemeSelector(
             modifier = Modifier.align(Alignment.Center),
-            selectedTheme = currentTheme
-        ) { currentTheme = it }
+            selectedTheme = when(state.calendarTheme){
+                UiTheme.GREEN -> Theme.GREEN
+                UiTheme.RED -> Theme.RED
+            }
+        ) {
+            viewModel.setEvent(CreateCalendarUiEvent.SelectCalendarTheme(
+                when(it){
+                    Theme.GREEN -> UiTheme.GREEN
+                    Theme.RED -> UiTheme.RED
+                }
+            ))
+        }
         DefaultButton(
             modifier = Modifier
                 .fillMaxWidth()

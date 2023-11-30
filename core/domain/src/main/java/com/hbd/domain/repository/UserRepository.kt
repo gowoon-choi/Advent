@@ -9,4 +9,5 @@ interface UserRepository {
     suspend fun setUserToken(token: String)
     suspend fun hasUserToken(): Flow<Result<Boolean>>
     suspend fun getUserNickname(): Flow<Result<String?>>
+    suspend fun setUserNickname(nickname: String): Flow<Result<Nothing?>>
 }

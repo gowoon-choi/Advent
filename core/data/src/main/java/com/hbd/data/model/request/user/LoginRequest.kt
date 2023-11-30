@@ -1,4 +1,4 @@
-package com.hbd.data.model.request
+package com.hbd.data.model.request.user
 
 import kotlinx.serialization.Serializable
 

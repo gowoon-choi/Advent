@@ -19,4 +19,5 @@ dependencies {
     implementation(project(":core:common"))
     implementation(libs.hilt.core)
     implementation(libs.coroutine.core)
+    implementation(libs.timber)
 }

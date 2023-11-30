@@ -15,7 +15,9 @@ class LoginUseCase @Inject constructor(
     suspend operator fun invoke(token: String): Flow<Result<User>>{
         return userRepository.getUserInfo(token).onEach {
             if (it is Result.Success) {
-                userRepository.setUserToken(it.data.token)
+                it.data?.let { user ->
+                    userRepository.setUserToken(user.token)
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.hbd.data.mapper
 
-import com.hbd.data.model.response.LoginResponse
+import com.hbd.data.model.response.user.LoginResponse
 import com.hbd.domain.model.User
 
 object UserMapper: MapperToDomain<LoginResponse, User> {

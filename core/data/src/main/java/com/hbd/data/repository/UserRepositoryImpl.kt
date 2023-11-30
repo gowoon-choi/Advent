@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import java.lang.Exception
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -20,7 +22,9 @@ class UserRepositoryImpl @Inject constructor(
         return userDatasource.login(token).map {
             when(it){
                 is Result.Success -> {
-                    Result.Success(it.data.toDomain())
+                    it.data?.let { response ->
+                        Result.Success(response.toDomain())
+                    } ?: Result.Error(Exception())
                 }
                 is Result.Error -> {
                     Result.Error(it.exception)
@@ -42,6 +46,14 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getUserNickname(): Flow<Result<String?>> {
         return flow {
             emit(Result.Success(preferenceManager.userNickname.firstOrNull()))
+        }
+    }
+
+    override suspend fun setUserNickname(nickname: String): Flow<Result<Nothing?>> {
+        return userDatasource.registerNickname(nickname).onEach {
+            if(it is Result.Success){
+                preferenceManager.setUserNickname(nickname)
+            }
         }
     }
 }
