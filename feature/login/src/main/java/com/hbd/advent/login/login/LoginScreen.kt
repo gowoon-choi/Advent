@@ -3,7 +3,10 @@ package com.hbd.advent.login.login
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -49,17 +52,27 @@ fun LoginScreen(
                         stringResource(id = R.string.app_name)
                     )
                 )
-                Icon(
+                Column(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(bottom = 100.dp)
-                        .clickable {
-                            viewModel.setEvent(LoginUiEvent.OnClickLoginButton)
-                        },
-                    painter = painterResource(id = R.drawable.kakao_login_btn),
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
+                        .padding(bottom = 80.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        painter = painterResource(id = com.hbd.advent.designsystem.R.drawable.bg_graphic_house),
+                        tint = Color.Unspecified,
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.height(80.dp))
+                    Icon(
+                        modifier = Modifier.clickable {
+                                viewModel.setEvent(LoginUiEvent.OnClickLoginButton)
+                            },
+                        painter = painterResource(id = R.drawable.kakao_login_btn),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                }
             }
             is LoginState.SUCCESS -> {
                 if((state.state as LoginState.SUCCESS).newUser){
@@ -73,5 +86,4 @@ fun LoginScreen(
             }
         }
     }
-
 }

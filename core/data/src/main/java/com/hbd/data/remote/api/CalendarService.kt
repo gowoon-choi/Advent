@@ -7,6 +7,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface CalendarService {
-    @POST("/calender")
-    suspend fun createCalendar(@Body createCalendarRequest: CreateCalendarRequest): Response<AdventResponse<Nothing>>
+    @POST("/calendar")
+    suspend fun createCalendar(@Body createCalendarRequest: CreateCalendarRequest): Response<AdventResponse<Unit>>
 }

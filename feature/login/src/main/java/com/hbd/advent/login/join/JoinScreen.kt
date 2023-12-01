@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -39,7 +40,7 @@ fun InitNicknameScreen(
 ) {
     val scope = rememberCoroutineScope()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val text by remember { mutableStateOf(TextFieldValue(state.nickname)) }
+    var text by remember { mutableStateOf(TextFieldValue(state.nickname)) }
     Box(
         modifier = Modifier
             .background(AdventTheme.colors.BgLight)
@@ -57,7 +58,11 @@ fun InitNicknameScreen(
                 modifier = Modifier.padding(top = 28.dp),
                 text = text,
                 hint = stringResource(id = R.string.nickname_input_placeholder),
-                onTextChanged = { viewModel.setEvent(JoinUiEvent.UpdateNickname(it.text)) })
+                onTextChanged = {
+                    text = it
+                    viewModel.setEvent(JoinUiEvent.UpdateNickname(it.text))
+                }
+            )
         }
         DefaultButton(
             modifier = Modifier

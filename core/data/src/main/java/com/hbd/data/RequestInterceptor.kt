@@ -13,7 +13,9 @@ class RequestInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response  {
         val request = chain.request().newBuilder().apply {
             runBlocking {
-                header("Authorization", ("Bearer " + preferenceManager.userToken.first()))
+                preferenceManager.userToken.first()?.let {
+                    header("Authorization", it)
+                }
             }
         }.build()
         return chain.proceed(request)

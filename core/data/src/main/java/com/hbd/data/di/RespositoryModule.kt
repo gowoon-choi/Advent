@@ -1,6 +1,7 @@
 package com.hbd.data.di
 
 import com.hbd.data.remote.datasource.UserDatasource
+import com.hbd.data.repository.CalendarRepositoryImpl
 import com.hbd.data.repository.UserRepositoryImpl
 import com.hbd.domain.repository.CalendarRepository
 import com.hbd.domain.repository.UserRepository
@@ -23,6 +24,6 @@ abstract class RespositoryModule {
     @Binds
     @Singleton
     abstract fun bindCalendarRepository(
-
+        calendarRepositoryImpl: CalendarRepositoryImpl
     ): CalendarRepository
 }

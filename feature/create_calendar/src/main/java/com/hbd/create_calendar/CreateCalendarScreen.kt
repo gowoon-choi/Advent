@@ -12,19 +12,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -41,6 +47,7 @@ import com.hbd.create_calendar.navigation.CreateCalendarRoute
 import com.hbd.domain.DomainConst
 import com.hbd.domain.model.UiTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 enum class Step {
     NAME, THEME
@@ -74,25 +81,40 @@ fun CreateCalendarLandingScreen(
                 title = stringResource(id = R.string.welcome_title, state.userNickname),
                 subtitle = stringResource(id = R.string.welcome_subtitle)
             )
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .align(Alignment.BottomCenter)
+            Icon(
+                modifier = Modifier.align(Alignment.Center),
+                painter = painterResource(id = com.hbd.advent.designsystem.R.drawable.bg_graphic_rudolf),
+                tint = Color.Unspecified,
+                contentDescription = null
+            )
+            Column(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                NegativeButton(
-                    modifier = Modifier.weight(3f),
-                    title = stringResource(id = R.string.skip_button_title)
+                Icon(
+                    painter = painterResource(id = com.hbd.advent.designsystem.R.drawable.bg_graphic_house),
+                    tint = Color.Unspecified,
+                    contentDescription = null
+                )
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
                 ) {
-                    navController.navigate(CreateCalendarRoute.homeGraph)
-                }
-                Spacer(modifier = Modifier.width(16.dp))
-                DefaultButton(
-                    modifier = Modifier.weight(5f),
-                    title = stringResource(id = R.string.create_calendar_button_title),
-                    enabled = true
-                ) {
-                    navController.navigate(CreateCalendarRoute.createCalendar)
+                    NegativeButton(
+                        modifier = Modifier.weight(3f),
+                        title = stringResource(id = R.string.skip_button_title)
+                    ) {
+                        navController.navigate(CreateCalendarRoute.homeGraph)
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    DefaultButton(
+                        modifier = Modifier.weight(5f),
+                        title = stringResource(id = R.string.create_calendar_button_title),
+                        enabled = true
+                    ) {
+                        navController.navigate(CreateCalendarRoute.createCalendar)
+                    }
                 }
             }
         }
@@ -104,6 +126,7 @@ fun CreateCalendarScreen(
     viewModel: CreateCalendarViewModel,
     navController: NavHostController
 ) {
+    val coroutineScope = rememberCoroutineScope()
     var step by remember { mutableStateOf(Step.NAME) }
     Scaffold(
         containerColor = AdventTheme.colors.BgLight,
@@ -111,7 +134,7 @@ fun CreateCalendarScreen(
             DefaultAppBarWithCloseButton(
                 title = stringResource(id = R.string.create_calendar_appbar_title),
                 onClickNav = {
-                    when(step){
+                    when (step) {
                         Step.NAME -> navController.navigate(CreateCalendarRoute.homeGraph)
                         Step.THEME -> step = Step.NAME
                     }
@@ -132,9 +155,18 @@ fun CreateCalendarScreen(
         when (step) {
             Step.NAME -> CalendarNameSettingContent(viewModel, modifier) { step = Step.THEME }
             Step.THEME -> CalendarThemeSettingContent(viewModel, modifier) {
-                navController.navigate(
-                    CreateCalendarRoute.createCalendarSuccess
-                )
+                viewModel.setEvent(CreateCalendarUiEvent.OnClickDone)
+            }
+        }
+    }
+    SideEffect {
+        coroutineScope.launch {
+            viewModel.effect.collect {
+                when (it) {
+                    is CreateCalendarUiEffect.GoToSuccessScreen -> {
+                        navController.navigate(CreateCalendarRoute.createCalendarSuccess)
+                    }
+                }
             }
         }
     }
@@ -147,7 +179,7 @@ fun CalendarNameSettingContent(
     onClickNext: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val text by remember { mutableStateOf(TextFieldValue(state.calendarName)) }
+    var text by remember { mutableStateOf(TextFieldValue(state.calendarName)) }
     Box(modifier = modifier) {
         Column {
             ScreenTitleWithSubtitle(
@@ -162,17 +194,23 @@ fun CalendarNameSettingContent(
                 text = text,
                 hint = stringResource(id = R.string.calendar_name_input_placeholder)
             ) {
+                text = it
                 viewModel.setEvent(CreateCalendarUiEvent.UpdateCalendarName(it.text))
             }
         }
-        DefaultButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter),
-            title = stringResource(id = com.hbd.advent.designsystem.R.string.common_button_next),
-            enabled = text.text.isNotEmpty(),
-            onClick = onClickNext
-        )
+        Column(modifier = Modifier.align(Alignment.BottomCenter)) {
+            Icon(
+                painter = painterResource(id = com.hbd.advent.designsystem.R.drawable.bg_graphic_house),
+                tint = Color.Unspecified,
+                contentDescription = null
+            )
+            DefaultButton(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(id = com.hbd.advent.designsystem.R.string.common_button_next),
+                enabled = text.text.isNotEmpty(),
+                onClick = onClickNext
+            )
+        }
     }
 }
 
@@ -183,7 +221,6 @@ fun CalendarThemeSettingContent(
     onClickDone: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    //var currentTheme by remember { mutableStateOf(Theme.GREEN) }
     Box(modifier = modifier) {
         Column {
             ScreenTitleWithSubtitle(
@@ -193,17 +230,19 @@ fun CalendarThemeSettingContent(
         }
         ThemeSelector(
             modifier = Modifier.align(Alignment.Center),
-            selectedTheme = when(state.calendarTheme){
+            selectedTheme = when (state.calendarTheme) {
                 UiTheme.GREEN -> Theme.GREEN
                 UiTheme.RED -> Theme.RED
             }
         ) {
-            viewModel.setEvent(CreateCalendarUiEvent.SelectCalendarTheme(
-                when(it){
-                    Theme.GREEN -> UiTheme.GREEN
-                    Theme.RED -> UiTheme.RED
-                }
-            ))
+            viewModel.setEvent(
+                CreateCalendarUiEvent.SelectCalendarTheme(
+                    when (it) {
+                        Theme.GREEN -> UiTheme.GREEN
+                        Theme.RED -> UiTheme.RED
+                    }
+                )
+            )
         }
         DefaultButton(
             modifier = Modifier
@@ -223,12 +262,16 @@ fun CreateCalendarSuccessScreen(navController: NavHostController) {
             .fillMaxSize()
             .background(AdventTheme.colors.BgLight)
     ) {
-        // TODO Column for graphic area
         Column(
             Modifier
                 .wrapContentSize()
                 .align(Alignment.Center)
         ) {
+            Icon(
+                painter = painterResource(id = com.hbd.advent.designsystem.R.drawable.bg_graphic_rudolf),
+                tint = Color.Unspecified,
+                contentDescription = null)
+            Spacer(modifier = Modifier.height(30.dp))
             ScreenTitleWithSubtitle(
                 title = stringResource(id = R.string.create_calendar_success_title),
                 subtitle = stringResource(id = R.string.create_calendar_success_subtitle),
@@ -236,6 +279,11 @@ fun CreateCalendarSuccessScreen(navController: NavHostController) {
                 horizontalAlign = Alignment.CenterHorizontally
             )
         }
+        Icon(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            painter = painterResource(id = com.hbd.advent.designsystem.R.drawable.bg_graphic_house),
+            tint = Color.Unspecified,
+            contentDescription = null)
     }
     LaunchedEffect(Unit) {
         delay(DELAY_TIME_FOR_SUCCESS_PAGE)

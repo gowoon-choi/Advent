@@ -6,7 +6,6 @@ import com.hbd.advent.feature.common.UiEffect
 import com.hbd.advent.feature.common.UiEvent
 import com.hbd.advent.feature.common.UiState
 import com.hbd.domain.usecase.user.AutoLoginUseCase
-import com.hbd.domain.usecase.user.GetUserNicknameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -15,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val autoLoginUseCase: AutoLoginUseCase,
-    private val getUserNicknameUseCase: GetUserNicknameUseCase
 ) : BaseViewModel<MainUiState, UiEvent, UiEffect>() {
     override fun createInitialState(): MainUiState {
         return MainUiState(TargetRoute.LOGIN)
@@ -25,11 +23,7 @@ class MainViewModel @Inject constructor(
         setState(
             currentState.copy(
                 route = if (hasToken()) {
-                    if (hasNickname()) {
-                        TargetRoute.HOME
-                    } else {
-                        TargetRoute.NICKNAME
-                    }
+                    TargetRoute.HOME
                 } else {
                     TargetRoute.LOGIN
                 }
@@ -43,12 +37,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun hasNickname(): Boolean {
-        return runBlocking {
-            !(getUserNicknameUseCase().firstOrNull() as? Result.Success)?.data.isNullOrEmpty()
-        }
-    }
-
     override fun handleEvent(event: UiEvent) {}
 }
 
@@ -57,5 +45,5 @@ data class MainUiState(
 ) : UiState
 
 enum class TargetRoute {
-    LOGIN, NICKNAME, HOME
+    LOGIN, HOME
 }

@@ -17,6 +17,7 @@ class LoginUseCase @Inject constructor(
             if (it is Result.Success) {
                 it.data?.let { user ->
                     userRepository.setUserToken(user.token)
+                    userRepository.setUserNickname(user.nickname)
                 }
             }
         }

@@ -8,6 +8,6 @@ import retrofit2.http.PUT
 
 interface UserService {
     @PUT("/user/nickname")
-    suspend fun registerNickname(@Body nicknameRequest: NicknameRequest): Response<AdventResponse<Nothing>>
+    suspend fun registerNickname(@Body nicknameRequest: NicknameRequest): Response<AdventResponse<Unit>>
 
 }

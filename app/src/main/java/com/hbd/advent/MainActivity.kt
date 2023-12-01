@@ -45,9 +45,6 @@ fun AdventApp(
             TargetRoute.LOGIN -> {
                 navController.navigate(AppRoute.loginGraph)
             }
-            TargetRoute.NICKNAME -> {
-                navController.navigate(AppRoute.initNicknameGraph)
-            }
             TargetRoute.HOME -> {
                 navController.navigate(AppRoute.homeGraph)
             }

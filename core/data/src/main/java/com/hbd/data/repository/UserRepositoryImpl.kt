@@ -39,7 +39,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun hasUserToken(): Flow<Result<Boolean>> {
         return flow {
-            emit(Result.Success(preferenceManager.userToken.firstOrNull().isNullOrEmpty()))
+            emit(Result.Success(!preferenceManager.userToken.firstOrNull().isNullOrEmpty()))
         }
     }
 
