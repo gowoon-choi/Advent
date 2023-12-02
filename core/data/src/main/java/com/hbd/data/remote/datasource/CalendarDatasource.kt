@@ -2,7 +2,7 @@ package com.hbd.data.remote.datasource
 
 import com.hbd.advent.common.model.Result
 import com.hbd.data.model.request.calendar.CreateCalendarRequest
-import com.hbd.data.model.response.calendar.SantaCalendarListResponse
+import com.hbd.data.model.response.calendar.SantaCalendar
 import com.hbd.data.remote.api.CalendarService
 import com.hbd.data.remote.common.AdventResCode
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +23,7 @@ class CalendarDatasource @Inject constructor(
         }
     }
 
-    suspend fun getSantaCalendarList(): Flow<Result<SantaCalendarListResponse>> {
+    suspend fun getSantaCalendarList(): Flow<Result<List<SantaCalendar>>> {
         return flow { emit(calendarService.getSantaCalendarList()) }.map { response ->
             if(response.isSuccessful){
                 response.body()?.let { adventResponse ->

@@ -26,12 +26,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,6 +49,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -58,7 +61,9 @@ import com.hbd.advent.designsystem.theme.AdventTheme
 import com.hbd.advent.designsystem.util.calculateCurrentOffsetForPage
 import com.hbd.advent.home.component.CalendarCardGift
 import com.hbd.advent.home.component.CalendarCardSanta
+import com.hbd.advent.home.component.CalendarCardSantaEmpty
 import com.hbd.advent.home.component.Switch
+import com.hbd.advent.home.navigation.HomeNavRoute
 import com.hbd.domain.model.UiTheme
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -70,63 +75,98 @@ enum class Mode {
 
 @Composable
 fun HomeScreen(
-    homeSantaViewModel: HomeSantaViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
     var mode by remember { mutableStateOf(Mode.SANTA) }
     Crossfade(targetState = mode, label = "") { it ->
         when (it) {
-            Mode.SANTA -> HomeSantaContent(homeSantaViewModel, navController) {
+            Mode.SANTA -> HomeSantaContent(navController = navController) {
                 mode = it
             }
 
-            Mode.GIFT -> HomeGiftContent {
-                mode = it
+            Mode.GIFT -> {
+//                HomeGiftContent {
+//                    mode = it
+//                }
             }
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeSantaContent(
-    viewModel: HomeSantaViewModel,
+    viewModel: HomeSantaViewModel = hiltViewModel(),
     navController: NavHostController,
-    onChangedMode: (Mode) -> Unit) {
+    onChangedMode: (Mode) -> Unit
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val pagerState = rememberPagerState { state.calendarList.size }
+    var currentTheme by remember { mutableStateOf(UiTheme.GREEN) }
     HomeContent(
         bgResId = R.drawable.santa_bg,
         mode = Mode.SANTA,
+        message = stringResource(id = R.string.santa_main_message),
+        badgeContent = {
+            DayBadge(
+                day = state.dday.toString(),
+                color = if (currentTheme == UiTheme.GREEN) AdventTheme.colors.Green200 else AdventTheme.colors.Red200
+            )
+        },
+        pagerContent = {
+            CalendarPager(pagerState = pagerState) { modifier, index ->
+                CalendarCardSanta(
+                    modifier = modifier,
+                    title = state.calendarList[index].title,
+                    subscriberCount = state.calendarList[index].subscriberCount
+                ) {
+                    // TODO onClick
+                }
+            }
+        },
+        pagerState = pagerState,
         onClickAdd = {
-                     // TODO nav controller navigate
-                     },
+            // TODO
+        },
         onChangedMode = onChangedMode
     )
+    LaunchedEffect(pagerState.currentPage) {
+        if(state.calendarList.isNotEmpty()){currentTheme = state.calendarList[pagerState.currentPage].theme
+            currentTheme = state.calendarList[pagerState.currentPage].theme
+        }
+    }
 }
 
-@Composable
-fun HomeGiftContent(onChangedMode: (Mode) -> Unit) {
-    HomeContent(
-        bgResId = R.drawable.gift_bg,
-        mode = Mode.GIFT,
-        onClickAdd = { /*TODO*/ },
-        onChangedMode = onChangedMode
-    )
-}
+//@Composable
+//fun HomeGiftContent(onChangedMode: (Mode) -> Unit) {
+//    HomeContent(
+//        bgResId = R.drawable.gift_bg,
+//        mode = Mode.GIFT,
+//        onClickAdd = { /*TODO*/ },
+//        onChangedMode = onChangedMode
+//    )
+//                CalendarCardGift(
+//                    modifier = animatedModifier,
+//                    title = it.toString(),
+//                    from = it.toString()
+//                ) {
+//                    // TODO onClick
+//                }
+//}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
     bgResId: Int,
     mode: Mode,
+    message: String,
+    badgeContent: @Composable () -> Unit,
+    pagerContent: @Composable () -> Unit,
+    pagerState: PagerState,
     onClickAdd: () -> Unit,
     onChangedMode: (Mode) -> Unit
 ) {
-    // TODO - calendar data class
-    val remainDay = "24"
-    val theme = UiTheme.GREEN
-    val title = "크리스마스가\n얼마 안남았어요."
-
     val scope = rememberCoroutineScope()
-    val pagerState = rememberPagerState { 3 }
     Box {
         Image(
             modifier = Modifier.fillMaxSize(),
@@ -162,13 +202,10 @@ fun HomeContent(
                         )
                 ) {
                     Column {
-                        DayBadge(
-                            day = remainDay,
-                            color = if (theme == UiTheme.GREEN) AdventTheme.colors.Green200 else AdventTheme.colors.Red200
-                        )
+                        badgeContent()
                         Spacer(modifier = Modifier.height(8.dp))
                         ScreenTitle(
-                            title = title,
+                            title = message,
                             color = if (mode == Mode.SANTA) AdventTheme.colors.White else AdventTheme.colors.Black
                         )
                     }
@@ -179,20 +216,24 @@ fun HomeContent(
                     )
                 }
                 Spacer(modifier = Modifier.height(50.dp))
-                // TODO SantaMode Empty View
-                CalendarPager(pagerState = pagerState, mode = mode)
-                Spacer(modifier = Modifier.height(30.dp))
-                RemainDateTimeText(
-                    modifier = Modifier.align(CenterHorizontally)
-                )
-                Spacer(modifier = Modifier.height(36.dp))
-                Indicator(
-                    modifier = Modifier.align(CenterHorizontally),
-                    mode = mode,
-                    currentIndex = pagerState.currentPage
-                ) {
-                    scope.launch {
-                        pagerState.animateScrollToPage(it)
+                if (mode == Mode.SANTA && pagerState.pageCount == 0) {
+                    CalendarCardSantaEmpty(Modifier.align(CenterHorizontally)) { onClickAdd() }
+                } else {
+                    pagerContent()
+                    Spacer(modifier = Modifier.height(30.dp))
+                    RemainDateTimeText(
+                        modifier = Modifier.align(CenterHorizontally)
+                    )
+                    Spacer(modifier = Modifier.height(36.dp))
+                    Indicator(
+                        modifier = Modifier.align(CenterHorizontally),
+                        mode = mode,
+                        calendarCount = pagerState.pageCount,
+                        currentIndex = pagerState.currentPage
+                    ) {
+                        scope.launch {
+                            pagerState.animateScrollToPage(it)
+                        }
                     }
                 }
             }
@@ -204,8 +245,7 @@ fun HomeContent(
 @Composable
 fun CalendarPager(
     pagerState: PagerState,
-    mode: Mode,
-    // calendar list
+    cardContent: @Composable (Modifier, Int) -> Unit
 ) {
     HorizontalPager(
         state = pagerState,
@@ -222,26 +262,8 @@ fun CalendarPager(
             translationX = pageOffset * 30f
             alpha = absValue * (1f - alphaValue) + alphaValue
         }
-        when (mode) {
-            Mode.SANTA -> CalendarCardSanta(
-                modifier = animatedModifier,
-                title = it.toString(),
-                subscriberCount = it
-            ) {
-                // TODO onClick
-            }
-
-
-            Mode.GIFT -> CalendarCardGift(
-                modifier = animatedModifier,
-                title = it.toString(),
-                from = it.toString()
-            ) {
-                // TODO onClick
-            }
-        }
+        cardContent(animatedModifier, it)
     }
-
 }
 
 @Composable
@@ -273,8 +295,8 @@ fun RemainDateTimeText(
 @Composable
 fun Indicator(
     modifier: Modifier,
-    // calendar list,
     mode: Mode,
+    calendarCount: Int,
     currentIndex: Int,
     onChangedCurrentIndex: (Int) -> Unit
 ) {
@@ -282,7 +304,7 @@ fun Indicator(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        repeat(3) {
+        repeat(calendarCount) {
             Box(
                 modifier = Modifier
                     .size(6.dp)

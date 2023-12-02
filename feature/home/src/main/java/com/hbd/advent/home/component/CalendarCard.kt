@@ -78,9 +78,12 @@ fun CalendarCardSanta(
 }
 
 @Composable
-fun CalendarCardSantaEmpty(onClick: () -> Unit) {
+fun CalendarCardSantaEmpty(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(256.dp)
             .height(400.dp)
             .clip(RoundedCornerShape(20.dp))

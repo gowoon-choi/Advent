@@ -21,7 +21,7 @@ class CalendarRepositoryImpl @Inject constructor(
         return calendarDatasource.getSantaCalendarList().map {
             when(it){
                 is Result.Success -> {
-                    Result.Success(it.data?.calendarList?.map { santaCalendar ->  santaCalendar.toDomain() })
+                    Result.Success(it.data?.map { santaCalendar ->  santaCalendar.toDomain() })
                 }
                 is Result.Error -> {
                     Result.Error(Exception())

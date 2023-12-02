@@ -7,7 +7,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
@@ -18,7 +17,13 @@ object RetrofitFactory {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    val jsonConverter = Json.asConverterFactory("application/json".toMediaType())
+    private val json = Json {
+        isLenient = true
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
+
+    val jsonConverter = json.asConverterFactory("application/json".toMediaType())
 
     inline fun <reified T> create(preferenceManager: PreferenceManager): T{
         return Retrofit.Builder()

@@ -21,7 +21,7 @@ class HomeSantaViewModel @Inject constructor(
     private val getDailySentenceUseCase: GetDailySentenceUseCase
 ): BaseViewModel<HomeSantaUiState, HomeSantaEvent, HomeSantaEffect>() {
     override fun createInitialState(): HomeSantaUiState {
-        return HomeSantaUiState(RemainDateCalculator.getRemainDay(), "", listOf())
+        return HomeSantaUiState(RemainDateCalculator.getRemainDay(), listOf())
     }
 
     init {
@@ -38,11 +38,14 @@ class HomeSantaViewModel @Inject constructor(
 
     private fun fetchInitialData(){
         viewModelScope.launch {
-            getDailySentenceUseCase().combine(getSantaCalendarListUseCase()){ sentence, calendarList ->
-                if(sentence is Result.Success && calendarList is Result.Success){
-                    setState(currentState.copy(message = sentence.data ?: "", calendarList = calendarList.data ?: listOf()))
-                } else {
-                    // TODO error handling
+            getSantaCalendarListUseCase().collect{
+                when(it){
+                    is Result.Success -> {
+                        setState(currentState.copy(calendarList = it.data ?: listOf()))
+                    }
+                    is Result.Error -> {
+
+                    }
                 }
             }
         }
@@ -51,7 +54,6 @@ class HomeSantaViewModel @Inject constructor(
 
 data class HomeSantaUiState(
     val dday: Long,
-    val message: String,
     val calendarList: List<SantaCalendar>
 ): UiState
 

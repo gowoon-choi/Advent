@@ -2,7 +2,7 @@ package com.hbd.data.remote.api
 
 import com.hbd.data.model.request.calendar.CreateCalendarRequest
 import com.hbd.data.model.response.AdventResponse
-import com.hbd.data.model.response.calendar.SantaCalendarListResponse
+import com.hbd.data.model.response.calendar.SantaCalendar
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,5 +13,5 @@ interface CalendarService {
     suspend fun createCalendar(@Body createCalendarRequest: CreateCalendarRequest): Response<AdventResponse<Unit>>
 
     @GET("/calendar/my")
-    suspend fun getSantaCalendarList(): Response<AdventResponse<SantaCalendarListResponse>>
+    suspend fun getSantaCalendarList(): Response<AdventResponse<List<SantaCalendar>>>
 }

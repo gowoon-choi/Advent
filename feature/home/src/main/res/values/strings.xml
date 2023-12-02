@@ -6,4 +6,5 @@
     <string name="remain_datetime_prefix">크리스마스까지 </string>
     <string name="remain_datetime_suffix"> 남음</string>
     <string name="santa_empty_calendar_card_message">마음을 전달 할 캘린더를\n생성해보세요 :D</string>
+    <string name="santa_main_message">연말에 전하고 싶던\n마음을 담아보세요</string>
 </resources>
