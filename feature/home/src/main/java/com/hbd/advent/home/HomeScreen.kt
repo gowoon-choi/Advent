@@ -22,7 +22,6 @@ import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,14 +44,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.hbd.advent.common.util.RemainDateCalculator
 import com.hbd.advent.designsystem.component.DayBadge
 import com.hbd.advent.designsystem.component.HomeAppBar
 import com.hbd.advent.designsystem.component.ScreenTitle
@@ -63,7 +57,6 @@ import com.hbd.advent.home.component.CalendarCardGift
 import com.hbd.advent.home.component.CalendarCardSanta
 import com.hbd.advent.home.component.CalendarCardSantaEmpty
 import com.hbd.advent.home.component.Switch
-import com.hbd.advent.home.navigation.HomeNavRoute
 import com.hbd.domain.model.UiTheme
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -77,18 +70,17 @@ enum class Mode {
 fun HomeScreen(
     navController: NavHostController
 ) {
-    var mode by remember { mutableStateOf(Mode.SANTA) }
+    var mode by remember { mutableStateOf(Mode.GIFT) }
     Crossfade(targetState = mode, label = "") { it ->
         when (it) {
             Mode.SANTA -> HomeSantaContent(navController = navController) {
                 mode = it
             }
 
-            Mode.GIFT -> {
-//                HomeGiftContent {
-//                    mode = it
-//                }
-            }
+            Mode.GIFT -> HomeGiftContent(navController = navController) {
+                    mode = it
+                }
+
         }
     }
 }
@@ -107,12 +99,9 @@ fun HomeSantaContent(
         bgResId = R.drawable.santa_bg,
         mode = Mode.SANTA,
         message = stringResource(id = R.string.santa_main_message),
-        badgeContent = {
-            DayBadge(
-                day = state.dday.toString(),
-                color = if (currentTheme == UiTheme.GREEN) AdventTheme.colors.Green200 else AdventTheme.colors.Red200
-            )
-        },
+        remainDay = state.remainTime.day.toString(),
+        remainTime = state.remainTime.hour.toString(),
+        theme = currentTheme,
         pagerContent = {
             CalendarPager(pagerState = pagerState) { modifier, index ->
                 CalendarCardSanta(
@@ -131,36 +120,60 @@ fun HomeSantaContent(
         onChangedMode = onChangedMode
     )
     LaunchedEffect(pagerState.currentPage) {
-        if(state.calendarList.isNotEmpty()){currentTheme = state.calendarList[pagerState.currentPage].theme
+        if (state.calendarList.isNotEmpty()) {
             currentTheme = state.calendarList[pagerState.currentPage].theme
         }
     }
 }
 
-//@Composable
-//fun HomeGiftContent(onChangedMode: (Mode) -> Unit) {
-//    HomeContent(
-//        bgResId = R.drawable.gift_bg,
-//        mode = Mode.GIFT,
-//        onClickAdd = { /*TODO*/ },
-//        onChangedMode = onChangedMode
-//    )
-//                CalendarCardGift(
-//                    modifier = animatedModifier,
-//                    title = it.toString(),
-//                    from = it.toString()
-//                ) {
-//                    // TODO onClick
-//                }
-//}
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun HomeGiftContent(
+    viewModel: HomeGiftViewModel = hiltViewModel(),
+    navController: NavHostController,
+    onChangedMode: (Mode) -> Unit
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val pagerState = rememberPagerState { state.calendarList.size }
+    var currentTheme by remember { mutableStateOf(UiTheme.GREEN) }
+    HomeContent(
+        bgResId = R.drawable.gift_bg,
+        mode = Mode.GIFT,
+        message = state.message,
+        remainDay = state.remainTime.day.toString(),
+        remainTime = state.remainTime.hour.toString(),
+        theme = currentTheme,
+        pagerContent = {
+            CalendarPager(pagerState = pagerState) { modifier, index ->
+                CalendarCardGift(
+                    modifier = modifier,
+                    title = state.calendarList[index].title,
+                    from = state.calendarList[index].nickname
+                ) {
+                    // TODO onClick
+                }
+            }
+        },
+        pagerState = pagerState,
+        onClickAdd = { /*TODO*/ },
+        onChangedMode = onChangedMode
+    )
+    LaunchedEffect(pagerState.currentPage) {
+        if (state.calendarList.isNotEmpty()) {
+            currentTheme = state.calendarList[pagerState.currentPage].theme
+        }
+    }
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
     bgResId: Int,
     mode: Mode,
+    theme: UiTheme,
     message: String,
-    badgeContent: @Composable () -> Unit,
+    remainDay: String,
+    remainTime: String,
     pagerContent: @Composable () -> Unit,
     pagerState: PagerState,
     onClickAdd: () -> Unit,
@@ -202,7 +215,10 @@ fun HomeContent(
                         )
                 ) {
                     Column {
-                        badgeContent()
+                        DayBadge(
+                            day = remainDay,
+                            color = if (theme == UiTheme.GREEN) AdventTheme.colors.Green200 else AdventTheme.colors.Red200
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
                         ScreenTitle(
                             title = message,
@@ -222,7 +238,9 @@ fun HomeContent(
                     pagerContent()
                     Spacer(modifier = Modifier.height(30.dp))
                     RemainDateTimeText(
-                        modifier = Modifier.align(CenterHorizontally)
+                        modifier = Modifier.align(CenterHorizontally),
+                        remainDay = remainDay,
+                        remainTime = remainTime
                     )
                     Spacer(modifier = Modifier.height(36.dp))
                     Indicator(
@@ -268,10 +286,10 @@ fun CalendarPager(
 
 @Composable
 fun RemainDateTimeText(
-    modifier: Modifier
+    modifier: Modifier,
+    remainDay: String,
+    remainTime: String
 ) {
-    val remainDay = RemainDateCalculator.getRemainDayAndHour().day.toString()
-    val remainTime = RemainDateCalculator.getRemainDayAndHour().hour.toString()
     Text(
         modifier = modifier,
         text = buildAnnotatedString {

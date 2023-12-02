@@ -1,7 +1,5 @@
 package com.hbd.data.remote.datasource
 
-import com.hbd.data.model.response.AdventResponse
-import com.hbd.data.model.response.common.DailySentence
 import com.hbd.data.remote.api.CommonService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,7 +11,7 @@ import com.hbd.data.remote.common.AdventResCode
 class CommonDatasource @Inject constructor(
     private val commonService: CommonService
 ) {
-    suspend fun getDailySentence(): Flow<Result<DailySentence>> {
+    suspend fun getDailySentence(): Flow<Result<String>> {
         return flow { emit(commonService.getDailySentence()) }.map {
             if(it.isSuccessful){
                 it.body()?.let { response ->

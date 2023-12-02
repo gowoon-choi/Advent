@@ -1,9 +1,11 @@
 package com.hbd.data.repository
 
 import com.hbd.advent.common.model.Result
-import com.hbd.data.mapper.CalendarMapper.toData
-import com.hbd.data.mapper.CalendarMapper.toDomain
+import com.hbd.data.mapper.GiftCalendarMapper.toDomain
+import com.hbd.data.mapper.SantaCalendarMapper.toData
+import com.hbd.data.mapper.SantaCalendarMapper.toDomain
 import com.hbd.data.remote.datasource.CalendarDatasource
+import com.hbd.domain.model.GiftCalendar
 import com.hbd.domain.model.SantaCalendar
 import com.hbd.domain.repository.CalendarRepository
 import kotlinx.coroutines.flow.Flow
@@ -23,9 +25,18 @@ class CalendarRepositoryImpl @Inject constructor(
                 is Result.Success -> {
                     Result.Success(it.data?.map { santaCalendar ->  santaCalendar.toDomain() })
                 }
-                is Result.Error -> {
-                    Result.Error(Exception())
+                is Result.Error -> { it }
+            }
+        }
+    }
+
+    override suspend fun getGiftCalendarList(): Flow<Result<List<GiftCalendar>>> {
+        return calendarDatasource.getGiftCalendarList().map {
+            when(it){
+                is Result.Success -> {
+                    Result.Success(it.data?.map { giftCalendar -> giftCalendar.toDomain() })
                 }
+                is Result.Error -> { it }
             }
         }
     }

@@ -2,7 +2,8 @@ package com.hbd.data.remote.datasource
 
 import com.hbd.advent.common.model.Result
 import com.hbd.data.model.request.calendar.CreateCalendarRequest
-import com.hbd.data.model.response.calendar.SantaCalendar
+import com.hbd.data.model.response.calendar.GiftCalendarResponse
+import com.hbd.data.model.response.calendar.SantaCalendarResponse
 import com.hbd.data.remote.api.CalendarService
 import com.hbd.data.remote.common.AdventResCode
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +24,7 @@ class CalendarDatasource @Inject constructor(
         }
     }
 
-    suspend fun getSantaCalendarList(): Flow<Result<List<SantaCalendar>>> {
+    suspend fun getSantaCalendarList(): Flow<Result<List<SantaCalendarResponse>>> {
         return flow { emit(calendarService.getSantaCalendarList()) }.map { response ->
             if(response.isSuccessful){
                 response.body()?.let { adventResponse ->
@@ -37,6 +38,22 @@ class CalendarDatasource @Inject constructor(
                 } ?: Result.Error(Exception())
             } else {
                 Result.Error(Exception(response.message()))
+            }
+        }
+    }
+
+    suspend fun getGiftCalendarList(): Flow<Result<List<GiftCalendarResponse>>>{
+        return flow { emit(calendarService.getGiftCalendarList()) }.map {
+            if(it.isSuccessful){
+                it.body()?.let { response ->
+                    if(response.status.resCode == AdventResCode.HBD200){
+                        Result.Success(response.data)
+                    } else {
+                        Result.Error(Exception())
+                    }
+                } ?: Result.Error(Exception())
+            } else {
+                Result.Error(Exception(it.message()))
             }
         }
     }

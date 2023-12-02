@@ -14,7 +14,7 @@ class CommonRepositoryImpl @Inject constructor(
         return commonDatasource.getDailySentence().map {
             when(it){
                 is Result.Success -> {
-                    Result.Success(it.data?.message ?: "")
+                    Result.Success(it.data ?: "")
                 }
                 is Result.Error -> {
                     Result.Error(it.exception)

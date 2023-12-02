@@ -3,7 +3,7 @@ package com.hbd.data.model.response.calendar
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SantaCalendar(
+data class SantaCalendarResponse(
     val id: String,
     val userId: Long,
     val nickname: String,
