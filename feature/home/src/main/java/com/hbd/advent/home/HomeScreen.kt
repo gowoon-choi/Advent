@@ -213,13 +213,17 @@ fun CalendarPager(
                 modifier = animatedModifier,
                 title = it.toString(),
                 subscriberCount = it
-            )
+            ){
+                // TODO onClick
+            }
 
             Mode.GIFT -> CalendarCardGift(
                 modifier = animatedModifier,
                 title = it.toString(),
                 from = it.toString()
-            )
+            ){
+                // TODO onClick
+            }
         }
     }
 

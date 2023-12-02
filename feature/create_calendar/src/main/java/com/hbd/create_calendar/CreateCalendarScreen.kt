@@ -30,7 +30,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -110,7 +109,7 @@ fun CreateCalendarLandingScreen(
                     Spacer(modifier = Modifier.width(16.dp))
                     DefaultButton(
                         modifier = Modifier.weight(5f),
-                        title = stringResource(id = R.string.create_calendar_button_title),
+                        title = stringResource(id = com.hbd.advent.designsystem.R.string.create_calendar),
                         enabled = true
                     ) {
                         navController.navigate(CreateCalendarRoute.createCalendar)
@@ -132,7 +131,7 @@ fun CreateCalendarScreen(
         containerColor = AdventTheme.colors.BgLight,
         topBar = {
             DefaultAppBarWithCloseButton(
-                title = stringResource(id = R.string.create_calendar_appbar_title),
+                title = stringResource(id = com.hbd.advent.designsystem.R.string.create_calendar),
                 onClickNav = {
                     when (step) {
                         Step.NAME -> navController.navigate(CreateCalendarRoute.homeGraph)
@@ -248,7 +247,7 @@ fun CalendarThemeSettingContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
-            title = stringResource(id = R.string.create_calendar_appbar_title),
+            title = stringResource(id = com.hbd.advent.designsystem.R.string.create_calendar),
             enabled = true,
             onClick = onClickDone
         )

@@ -6,4 +6,5 @@
     <string name="subscriber_unit">명</string>
     <string name="day">일</string>
     <string name="time">시간</string>
+    <string name="create_calendar">캘린더 생성하기</string>
 </resources>
