@@ -46,6 +46,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.hbd.advent.common.util.RemainDateCalculator
 import com.hbd.advent.designsystem.component.DayBadge
 import com.hbd.advent.designsystem.component.HomeAppBar
@@ -65,11 +69,14 @@ enum class Mode {
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    homeSantaViewModel: HomeSantaViewModel = hiltViewModel(),
+    navController: NavHostController
+) {
     var mode by remember { mutableStateOf(Mode.SANTA) }
     Crossfade(targetState = mode, label = "") { it ->
         when (it) {
-            Mode.SANTA -> HomeSantaContent {
+            Mode.SANTA -> HomeSantaContent(homeSantaViewModel, navController) {
                 mode = it
             }
 
@@ -81,11 +88,16 @@ fun HomeScreen() {
 }
 
 @Composable
-fun HomeSantaContent(onChangedMode: (Mode) -> Unit) {
+fun HomeSantaContent(
+    viewModel: HomeSantaViewModel,
+    navController: NavHostController,
+    onChangedMode: (Mode) -> Unit) {
     HomeContent(
         bgResId = R.drawable.santa_bg,
         mode = Mode.SANTA,
-        onClickAdd = { /*TODO*/ },
+        onClickAdd = {
+                     // TODO nav controller navigate
+                     },
         onChangedMode = onChangedMode
     )
 }
@@ -292,10 +304,4 @@ fun Indicator(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun HomePreview() {
-    HomeScreen()
 }

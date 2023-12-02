@@ -8,10 +8,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CreateCalendarUseCase @Inject constructor(
+class GetSantaCalendarListUseCase @Inject constructor(
     private val calendarRepository: CalendarRepository
 ) {
-    suspend operator fun invoke(calendar: SantaCalendar): Flow<Result<Nothing>> {
-        return calendarRepository.createCalendar(calendar)
+    suspend operator fun invoke(): Flow<Result<List<SantaCalendar>>> {
+        return calendarRepository.getSantaCalendarList()
     }
 }

@@ -7,7 +7,7 @@ import com.hbd.advent.feature.common.BaseViewModel
 import com.hbd.advent.feature.common.UiEffect
 import com.hbd.advent.feature.common.UiEvent
 import com.hbd.advent.feature.common.UiState
-import com.hbd.domain.model.Calendar
+import com.hbd.domain.model.SantaCalendar
 import com.hbd.domain.model.UiTheme
 import com.hbd.domain.usecase.calendar.CreateCalendarUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,7 +56,7 @@ class CreateCalendarViewModel @Inject constructor(
 
     private fun requestCreateCalendar(){
         viewModelScope.launch {
-            createCalendarUseCase(Calendar(currentState.calendarName, currentState.calendarTheme)).collect{
+            createCalendarUseCase(SantaCalendar(currentState.calendarName, currentState.calendarTheme)).collect{
                 when(it){
                     is Result.Success -> {
                         setEffect(CreateCalendarUiEffect.GoToSuccessScreen)

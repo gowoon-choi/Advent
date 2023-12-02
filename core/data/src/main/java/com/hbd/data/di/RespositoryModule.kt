@@ -2,8 +2,10 @@ package com.hbd.data.di
 
 import com.hbd.data.remote.datasource.UserDatasource
 import com.hbd.data.repository.CalendarRepositoryImpl
+import com.hbd.data.repository.CommonRepositoryImpl
 import com.hbd.data.repository.UserRepositoryImpl
 import com.hbd.domain.repository.CalendarRepository
+import com.hbd.domain.repository.CommonRepository
 import com.hbd.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -26,4 +28,10 @@ abstract class RespositoryModule {
     abstract fun bindCalendarRepository(
         calendarRepositoryImpl: CalendarRepositoryImpl
     ): CalendarRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCommonRepository(
+        commonRepositoryImpl: CommonRepositoryImpl
+    ): CommonRepository
 }

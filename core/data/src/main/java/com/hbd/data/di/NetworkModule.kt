@@ -3,6 +3,7 @@ package com.hbd.data.di
 import com.hbd.advent.datastore.PreferenceManager
 import com.hbd.data.RetrofitFactory
 import com.hbd.data.remote.api.CalendarService
+import com.hbd.data.remote.api.CommonService
 import com.hbd.data.remote.api.LoginService
 import com.hbd.data.remote.api.UserService
 import dagger.Module
@@ -34,5 +35,11 @@ object NetworkModule {
         preferenceManager: PreferenceManager
     ): CalendarService{
         return RetrofitFactory.create(preferenceManager)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCommonService(): CommonService{
+        return RetrofitFactory.createWithoutRequestToken()
     }
 }

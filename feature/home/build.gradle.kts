@@ -49,6 +49,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:data"))
     implementation(project(":feature:common"))
+    implementation(project(":feature:create_calendar"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)

@@ -14,7 +14,7 @@ fun NavGraphBuilder.homeGraph(
         route = HomeNavRoute.graph
     ){
         composable(HomeNavRoute.home){
-            HomeScreen()
+            HomeScreen(navController = navHostController)
         }
     }
 }

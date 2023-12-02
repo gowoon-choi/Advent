@@ -1,9 +1,11 @@
 package com.hbd.data.di
 
 import com.hbd.data.remote.api.CalendarService
+import com.hbd.data.remote.api.CommonService
 import com.hbd.data.remote.api.LoginService
 import com.hbd.data.remote.api.UserService
 import com.hbd.data.remote.datasource.CalendarDatasource
+import com.hbd.data.remote.datasource.CommonDatasource
 import com.hbd.data.remote.datasource.UserDatasource
 import dagger.Module
 import dagger.Provides
@@ -30,5 +32,13 @@ object DataSourceModule {
         calendarService: CalendarService
     ): CalendarDatasource {
         return CalendarDatasource(calendarService)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCommonDatasource(
+        commonService: CommonService
+    ): CommonDatasource {
+        return CommonDatasource(commonService)
     }
 }
