@@ -46,6 +46,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hbd.advent.common.util.RemainDateCalculator
 import com.hbd.advent.designsystem.component.DayBadge
 import com.hbd.advent.designsystem.component.HomeAppBar
 import com.hbd.advent.designsystem.component.ScreenTitle
@@ -99,7 +100,7 @@ fun HomeGiftContent(onChangedMode: (Mode) -> Unit) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
     bgResId: Int,
@@ -109,12 +110,11 @@ fun HomeContent(
 ) {
     // TODO - calendar data class
     val remainDay = "24"
-    val remainTime = "12"
     val theme = UiTheme.GREEN
     val title = "크리스마스가\n얼마 안남았어요."
 
     val scope = rememberCoroutineScope()
-    val pagerState = rememberPagerState{ 3 }
+    val pagerState = rememberPagerState { 3 }
     Box {
         Image(
             modifier = Modifier.fillMaxSize(),
@@ -155,7 +155,10 @@ fun HomeContent(
                             color = if (theme == UiTheme.GREEN) AdventTheme.colors.Green200 else AdventTheme.colors.Red200
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        ScreenTitle(title = title, color = if(mode == Mode.SANTA) AdventTheme.colors.White else AdventTheme.colors.Black)
+                        ScreenTitle(
+                            title = title,
+                            color = if (mode == Mode.SANTA) AdventTheme.colors.White else AdventTheme.colors.Black
+                        )
                     }
                     Switch(
                         modifier = Modifier.align(Alignment.BottomEnd),
@@ -164,20 +167,19 @@ fun HomeContent(
                     )
                 }
                 Spacer(modifier = Modifier.height(50.dp))
+                // TODO SantaMode Empty View
                 CalendarPager(pagerState = pagerState, mode = mode)
                 Spacer(modifier = Modifier.height(30.dp))
                 RemainDateTimeText(
-                    modifier = Modifier.align(CenterHorizontally),
-                    remainDay = remainDay,
-                    remainTime = remainTime
+                    modifier = Modifier.align(CenterHorizontally)
                 )
                 Spacer(modifier = Modifier.height(36.dp))
                 Indicator(
                     modifier = Modifier.align(CenterHorizontally),
                     mode = mode,
                     currentIndex = pagerState.currentPage
-                ){
-                    scope.launch{
+                ) {
+                    scope.launch {
                         pagerState.animateScrollToPage(it)
                     }
                 }
@@ -213,15 +215,16 @@ fun CalendarPager(
                 modifier = animatedModifier,
                 title = it.toString(),
                 subscriberCount = it
-            ){
+            ) {
                 // TODO onClick
             }
+
 
             Mode.GIFT -> CalendarCardGift(
                 modifier = animatedModifier,
                 title = it.toString(),
                 from = it.toString()
-            ){
+            ) {
                 // TODO onClick
             }
         }
@@ -231,20 +234,22 @@ fun CalendarPager(
 
 @Composable
 fun RemainDateTimeText(
-    modifier: Modifier,
-    remainDay: String,
-    remainTime: String
+    modifier: Modifier
 ) {
+    val remainDay = RemainDateCalculator.getRemainDayAndHour().day.toString()
+    val remainTime = RemainDateCalculator.getRemainDayAndHour().hour.toString()
     Text(
         modifier = modifier,
         text = buildAnnotatedString {
             append(stringResource(id = R.string.remain_datetime_prefix))
             withStyle(SpanStyle(color = AdventTheme.colors.Green200)) {
+                append(" ")
                 append(remainDay)
                 append(stringResource(id = com.hbd.advent.designsystem.R.string.day))
                 append(" ")
                 append(remainTime)
                 append(stringResource(id = com.hbd.advent.designsystem.R.string.time))
+                append(" ")
             }
             append(stringResource(id = R.string.remain_datetime_suffix))
         },
